@@ -6,9 +6,9 @@ This remote lab is still in ACTIVE DEVELOPMENT.
 
 ## Contents
 
-- Firmware '''./fw'''
-- Hardware '''./hw'''
-- UI '''./ui'''
+- Firmware `./fw`
+- Hardware `./hw`
+- UI `./ui`
 
 ## Introduction
 
@@ -22,16 +22,16 @@ The firmware sends and receives JSON messages, eg:
 
 Mode control, received from UI through Serial (for all commands see [SerialCommands](./fw/MiniTruss/):
 
-'''
+```
 {"set": "position", "to": value} 
 {"set": "mode", "to": "move"} 
 {"set": "mode", "to":"tare_all"} 
-'''
+```
 
 Sending data to UI through Serial:
-'''
+```
 {"load_cell":"20.0", "gauge_1": "100.0", "gauge_2": "100.0", "gauge_3": "100.0", "gauge_4": "100.0", "gauge_5": "100.0", "gauge_6": "100.0", "state":"1", "pos":"10"}
-'''
+```
 
 ## PCB
 
