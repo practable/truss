@@ -1,0 +1,19 @@
+{"set": "position", "to": value} 
+
+{"set": "mode", "to": "read"} 
+
+{"set": "mode", "to": "move"} 
+
+{"set": "mode", "to":"standby"} 
+
+{"set": "mode", "to":"zero"}
+
+{"set": "mode", "to":"tare"} 
+
+{"set": "mode", "to":"tare_all"} 
+
+{"set": "mode", "to":"tare_load"} 
+
+{"set": "mode", "to":"gauge_reset"} 
+
+{"set": "mode", "to":"calibrate"} 
