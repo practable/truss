@@ -43,6 +43,8 @@ unsigned long enter_move_time = millis();    //the time at which the move state 
 //LIMIT SWITCHES
 #define limitSwitchLower 11
 bool lowerLimitReached = false;
+unsigned long lastDebounceTime = 0;  // the last time the interrupt was triggered
+unsigned long debounceDelay = 50000;    // micro-seconds the debounce time; 
 int soft_lower_limit = 15;        //need to have a soft limit which the servo returns to if it hits the hard limit switch
 
 //GAUGE READINGS
@@ -83,13 +85,13 @@ HX711 gauge_6;
 //const int scale_factor_6 = scale_factor_1*0.924;
 
 //still testing these factors
-const int scale_load = 53.12;
-const int scale_factor_1 = 53.12;
-const int scale_factor_2 = scale_factor_1;
-const int scale_factor_3 = scale_factor_1;
-const int scale_factor_4 = scale_factor_1;
-const int scale_factor_5 = scale_factor_1;
-const int scale_factor_6 = scale_factor_1;
+const int scale_load = -371.8;
+const int scale_factor_1 = 27.5;
+const int scale_factor_2 = 53.1;
+const int scale_factor_3 = 22.4;
+const int scale_factor_4 = 80.7;
+const int scale_factor_5 = 30.1;
+const int scale_factor_6 = 26.1;
 
 
 HX711 gauges[numGauges] = {gauge_0, gauge_1, gauge_2, gauge_3, gauge_4, gauge_5, gauge_6};
@@ -347,15 +349,23 @@ void Sm_State_Calibrate(void){
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ HARD LIMIT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //TRANSITION: STATE_HARD_LIMIT -> STATE_HARD_LIMIT
-// When the hard limit switch is hit, servo will move back to the soft limit and stay in this mode until a user resets or moves the servo again, changing the state.
-// The UI will need to respond to receiving the hard limit state in order to make users aware of the need to reset.
+
 void Sm_State_Hard_Limit(void){
 
-  moveToPos = soft_lower_limit;
-  servo.updateMoveTo(moveToPos);
-  currentPos = servo.update();
-   
-  SmState = STATE_HARD_LIMIT;
+    //ensure servo doesn't try to keep moving
+    moveToPos = 0;
+    servo.updateMoveTo(moveToPos);
+    //reset the servo
+    servo.zero();
+  
+    currentPos = 0;
+    
+    waitStartTime = millis();
+    waitInterval = 5000;
+  
+    lowerLimitReached = false;
+    SmState = STATE_WAIT;
+  
   
 }
 
@@ -380,7 +390,6 @@ void setup() {
 
   pinMode(limitSwitchLower, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(limitSwitchLower), doLimitLower, FALLING);    // lower limit hardware switch will trigger method doLimitLower on press
-  attachInterrupt(digitalPinToInterrupt(limitSwitchLower), doLimitCleared, RISING);    // lower limit hardware switch will trigger method doLimitCleared when unpressed
 
   pinMode(OUTPUT_ENABLE, OUTPUT);
   digitalWrite(OUTPUT_ENABLE, HIGH);
@@ -399,9 +408,14 @@ void loop() {
   
   if(lowerLimitReached){
 
-    SmState = STATE_HARD_LIMIT;
-    (*StateMachine[SmState].func)();
-    
+    if ((micros() - lastDebounceTime) > debounceDelay){
+      
+        SmState = STATE_HARD_LIMIT;
+        reportState(SmState);
+        (*StateMachine[SmState].func)();
+        
+    }
+
   } 
   else 
   {
@@ -492,18 +506,12 @@ StateType readSerialJSON(StateType SmState){
       return SmState;     //return whatever state it changed to or maintain the state.
  } 
 
- //On an interrupt - will interrupt all state functions
-//TRANSITION: -> READ
+
 void doLimitLower(void){
 
-    reportState();
-    lowerLimitReached = true;
-}
-
-void doLimitCleared(void){
-
-    reportState();
-    lowerLimitReached = false;
+  lastDebounceTime = micros();
+  lowerLimitReached = true;
+    
 }
 
 void report(){
