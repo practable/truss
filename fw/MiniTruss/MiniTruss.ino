@@ -14,7 +14,7 @@
 // dprydereid@gmail.com
 
 // Add a hardware limit switch state and updated load cell pin
-// 23/08/22
+// 01/09/22
 // dprydereid@gmail.com
 
 // IMPORT LIBRARIES
@@ -389,7 +389,7 @@ void Sm_Run(void)
 void setup() {
 
   pinMode(limitSwitchLower, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(limitSwitchLower), doLimitLower, FALLING);    // lower limit hardware switch will trigger method doLimitLower on press
+  //attachInterrupt(digitalPinToInterrupt(limitSwitchLower), doLimitLower, FALLING);    // lower limit hardware switch will trigger method doLimitLower on press
 
   pinMode(OUTPUT_ENABLE, OUTPUT);
   digitalWrite(OUTPUT_ENABLE, HIGH);
