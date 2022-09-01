@@ -41,11 +41,11 @@ unsigned long step_interval = 100L;     //at 5V takes approx. 100ms to move 1 po
 unsigned long enter_move_time = millis();    //the time at which the move state started
 
 //LIMIT SWITCHES
-#define limitSwitchLower 11
-bool lowerLimitReached = false;
+#define limitSwitch 11
+bool limitReached = false;
 unsigned long lastDebounceTime = 0;  // the last time the interrupt was triggered
 unsigned long debounceDelay = 50000;    // micro-seconds the debounce time; 
-int soft_lower_limit = 15;        //need to have a soft limit which the servo returns to if it hits the hard limit switch
+int soft_limit = 15;        //need to have a soft limit which the servo returns to if it hits the hard limit switch
 
 //GAUGE READINGS
 const int numGauges = 7;    //6 gauges + load cell
@@ -225,7 +225,7 @@ void Sm_State_Read(void){
 void Sm_State_Move(void){
 
   // can only run servo in move state if the lower limit has not been activated
-  if(!lowerLimitReached)
+  if(!limitReached)
   {
     currentPos = servo.update();
    
@@ -363,7 +363,7 @@ void Sm_State_Hard_Limit(void){
     waitStartTime = millis();
     waitInterval = 5000;
   
-    lowerLimitReached = false;
+    limitReached = false;
     SmState = STATE_WAIT;
   
   
@@ -388,8 +388,8 @@ void Sm_Run(void)
 
 void setup() {
 
-  pinMode(limitSwitchLower, INPUT_PULLUP);
-  //attachInterrupt(digitalPinToInterrupt(limitSwitchLower), doLimitLower, FALLING);    // lower limit hardware switch will trigger method doLimitLower on press
+  pinMode(limitSwitch, INPUT_PULLUP);
+  //attachInterrupt(digitalPinToInterrupt(limitSwitch), doLimit, FALLING);    // lower limit hardware switch will trigger method doLimitLower on press
 
   pinMode(OUTPUT_ENABLE, OUTPUT);
   digitalWrite(OUTPUT_ENABLE, HIGH);
@@ -406,7 +406,7 @@ void setup() {
 
 void loop() {
   
-  if(lowerLimitReached){
+  if(limitReached){
 
     if ((micros() - lastDebounceTime) > debounceDelay){
       
@@ -507,10 +507,10 @@ StateType readSerialJSON(StateType SmState){
  } 
 
 
-void doLimitLower(void){
+void doLimit(void){
 
   lastDebounceTime = micros();
-  lowerLimitReached = true;
+  limitReached = true;
     
 }
 
