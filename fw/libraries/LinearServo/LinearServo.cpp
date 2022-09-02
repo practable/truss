@@ -21,7 +21,7 @@ Position is set between 0 (full retraction) and 100 (full extension).
  */
 LinearServo::LinearServo(int signal_pin, int max_position)
 {
-  this->delay = 10000L;		//step period in microseconds. Default value
+  this->delay = 10000;		//step period in microseconds. Default value
   
   // Arduino pins for the motor control connection:
   this->signal_pin = signal_pin;
@@ -40,15 +40,15 @@ LinearServo::LinearServo(int signal_pin, int max_position)
  * Sets which pin should control the motor.
  * Can also set the pulse frequency by setting a custom delay.
  */
-LinearServo::LinearServo(int signal_pin, int max_position, long delay)
+LinearServo::LinearServo(int signal_pin, int max_position, int delay)
 {
-	if(delay > 2000L)
+	if(delay > 2000)
 	{
 		this->delay = delay;		
   	} 
   	else
   	{
-  		this->delay = 2000L;
+  		this->delay = 2000;
   	}
   	
   // Arduino pins for the motor control connection:
@@ -65,15 +65,15 @@ LinearServo::LinearServo(int signal_pin, int max_position, long delay)
 /*
  * Sets the delay between steps in millseconds -> effectively the speed of the stepper
  */
-void LinearServo::setDelay(long whatDelay)
+void LinearServo::setDelay(int whatDelay)
 {
-	if(whatDelay > 2000L)
+	if(whatDelay > 2000)
 	{
 		this->delay = whatDelay;		//step period in microseconds. Default value
   	} 
   	else
   	{
-  		this->delay = 2000L;
+  		this->delay = 2000;
   	}
 }
 
@@ -88,7 +88,14 @@ void LinearServo::zero()
 	for(int i=this->max_pos;i>=0;i--)
 	{
 		update();
-		delayMicroseconds(100000);
+		//delayMicroseconds(100000);
+  	}
+  	
+  	//run 10 more pulses to ensure zeroing.
+  	for(int i=0;i<10;i++)
+	{
+		update();
+		//delayMicroseconds(100000);
   	}
   	
   	this->current_position = 0;
@@ -150,8 +157,8 @@ int LinearServo::update()
  */
 void LinearServo::pulse(int position)
 {
-    	unsigned long high_delay = 1000+(position*10);	//pulse length between 1ms and 2ms
-	unsigned long low_delay = this->delay - high_delay;	//the remainder of delay
+    	unsigned int high_delay = 990+(int)(10*position);	//pulse length between 990us and 2000us
+	unsigned int low_delay = this->delay - high_delay;	//the remainder of delay
 	digitalWrite(this->signal_pin, HIGH);
 	delayMicroseconds(high_delay);
 	digitalWrite(this->signal_pin, LOW);
