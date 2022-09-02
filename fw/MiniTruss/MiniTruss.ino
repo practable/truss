@@ -390,7 +390,7 @@ void Sm_Run(void)
 void setup() {
 
   pinMode(limitSwitch, INPUT_PULLUP);
-  //attachInterrupt(digitalPinToInterrupt(limitSwitch), doLimit, FALLING);    // lower limit hardware switch will trigger method doLimitLower on press
+  attachInterrupt(digitalPinToInterrupt(limitSwitch), doLimit, FALLING);    // lower limit hardware switch will trigger method doLimitLower on press
 
   pinMode(OUTPUT_ENABLE, OUTPUT);
   digitalWrite(OUTPUT_ENABLE, HIGH);
@@ -406,23 +406,25 @@ void setup() {
 
 void loop() {
   
-  if(limitReached){
+//  if(limitReached){
+//
+//    if ((micros() - lastDebounceTime) > debounceDelay){
+//      
+//        SmState = STATE_HARD_LIMIT;
+//        reportState(SmState);
+//        (*StateMachine[SmState].func)();
+//        
+//    }
+//
+//  } 
+//  else 
+//  {
+//    
+//    Sm_Run();
+//    
+//  }
 
-    if ((micros() - lastDebounceTime) > debounceDelay){
-      
-        SmState = STATE_HARD_LIMIT;
-        reportState(SmState);
-        (*StateMachine[SmState].func)();
-        
-    }
-
-  } 
-  else 
-  {
-    
-    Sm_Run();
-    
-  }
+  Sm_Run();
 
 }
 
@@ -509,8 +511,10 @@ StateType readSerialJSON(StateType SmState){
 
 void doLimit(void){
 
-  lastDebounceTime = micros();
-  limitReached = true;
+//  lastDebounceTime = micros();
+//  limitReached = true;
+
+  SmState = STATE_ZERO;
     
 }
 
