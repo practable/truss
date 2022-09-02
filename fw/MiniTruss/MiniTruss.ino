@@ -43,7 +43,7 @@ unsigned long enter_move_time = millis();    //the time at which the move state 
 
 //LIMIT SWITCHES
 #define limitSwitch 11
-bool limitReached = false;
+volatile bool limitReached = false;
 unsigned long lastDebounceTime = 0;  // the last time the interrupt was triggered
 unsigned long debounceDelay = 50000;    // micro-seconds the debounce time; 
 int soft_limit = 15;        //need to have a soft limit which the servo returns to if it hits the hard limit switch
@@ -263,6 +263,7 @@ void Sm_State_Zero(void){
   waitStartTime = millis();
   waitInterval = 3000;
 
+  limitReached = false;
   SmState = STATE_WAIT;
  
 }
@@ -351,24 +352,24 @@ void Sm_State_Calibrate(void){
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ HARD LIMIT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //TRANSITION: STATE_HARD_LIMIT -> STATE_HARD_LIMIT
 
-void Sm_State_Hard_Limit(void){
-
-    //ensure servo doesn't try to keep moving
-    moveToPos = 0;
-    servo.updateMoveTo(moveToPos);
-    //reset the servo
-    servo.zero();
-  
-    currentPos = 0;
-    
-    waitStartTime = millis();
-    waitInterval = 5000;
-  
-    limitReached = false;
-    SmState = STATE_WAIT;
-  
-  
-}
+//void Sm_State_Hard_Limit(void){
+//
+//    //ensure servo doesn't try to keep moving
+//    moveToPos = 0;
+//    servo.updateMoveTo(moveToPos);
+//    //reset the servo
+//    servo.zero();
+//  
+//    currentPos = 0;
+//    
+//    waitStartTime = millis();
+//    waitInterval = 5000;
+//  
+//    limitReached = false;
+//    SmState = STATE_WAIT;
+//  
+//  
+//}
 
 //STATE MACHINE RUN FUNCTION
 void Sm_Run(void)
@@ -405,26 +406,21 @@ void setup() {
 }
 
 void loop() {
-  
-//  if(limitReached){
-//
-//    if ((micros() - lastDebounceTime) > debounceDelay){
-//      
-//        SmState = STATE_HARD_LIMIT;
-//        reportState(SmState);
-//        (*StateMachine[SmState].func)();
-//        
-//    }
-//
-//  } 
-//  else 
-//  {
-//    
-//    Sm_Run();
-//    
-//  }
 
-  Sm_Run();
+  if(limitReached){
+    
+    SmState = STATE_ZERO;
+    (*StateMachine[SmState].func)();
+    
+  } 
+  else
+  {
+    
+    Sm_Run();
+    
+  }
+
+  
 
 }
 
@@ -512,9 +508,10 @@ StateType readSerialJSON(StateType SmState){
 void doLimit(void){
 
 //  lastDebounceTime = micros();
-//  limitReached = true;
+  limitReached = true;
 
-  SmState = STATE_ZERO;
+//  SmState = STATE_ZERO;
+//  reportState(SmState);
     
 }
 
