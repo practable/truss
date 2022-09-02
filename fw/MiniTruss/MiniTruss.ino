@@ -125,7 +125,7 @@ typedef enum
   STATE_GAUGE_RESET = 7,    //resets all gauges
   STATE_WAIT = 8,    //a wait state to allow functions like taring to complete before returning to READ state.
   STATE_CALIBRATE = 9,
-  STATE_HARD_LIMIT = 10,
+//  STATE_HARD_LIMIT = 10,
   
 } StateType;
 
@@ -141,7 +141,7 @@ void Sm_State_Tare_All(void);
 void Sm_State_Gauge_Reset(void);
 void Sm_State_Wait(void);
 void Sm_State_Calibrate(void);
-void Sm_State_Hard_Limit(void);
+//void Sm_State_Hard_Limit(void);
 
 /**
  * Type definition used to define the state
@@ -169,7 +169,7 @@ StateMachineType StateMachine[] =
   {STATE_GAUGE_RESET, Sm_State_Gauge_Reset},
   {STATE_WAIT, Sm_State_Wait},
   {STATE_CALIBRATE, Sm_State_Calibrate},
-  {STATE_HARD_LIMIT, Sm_State_Hard_Limit},
+//  {STATE_HARD_LIMIT, Sm_State_Hard_Limit},
 };
  
 int NUM_STATES = 11;
