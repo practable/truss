@@ -77,22 +77,22 @@ HX711 gauge_6;
 
 //these will need to be calibrated for new truss setup
 // OLD values for large truss
-//const int scale_load = -15184;
-//const int scale_factor_1 = 4050;
-//const int scale_factor_2 = scale_factor_1*1.030;
-//const int scale_factor_3 = scale_factor_1*0.977;
-//const int scale_factor_4 = scale_factor_1*0.947;
-//const int scale_factor_5 = scale_factor_1*0.818;
-//const int scale_factor_6 = scale_factor_1*0.924;
+//const float scale_load = -15184;
+//const float scale_factor_1 = 4050;
+//const float scale_factor_2 = scale_factor_1*1.030;
+//const float scale_factor_3 = scale_factor_1*0.977;
+//const float scale_factor_4 = scale_factor_1*0.947;
+//const float scale_factor_5 = scale_factor_1*0.818;
+//const float scale_factor_6 = scale_factor_1*0.924;
 
 //still testing these factors
-const int scale_load = -371.8;
-const int scale_factor_1 = 27.5;
-const int scale_factor_2 = 53.1;
-const int scale_factor_3 = 22.4;
-const int scale_factor_4 = 80.7;
-const int scale_factor_5 = 30.1;
-const int scale_factor_6 = 26.1;
+const float scale_load = -371.8;
+const float scale_factor_1 = 27.5;
+const float scale_factor_2 = 53.1;
+const float scale_factor_3 = 22.4;
+const float scale_factor_4 = 80.7;
+const float scale_factor_5 = 30.1;
+const float scale_factor_6 = 26.1;
 
 
 HX711 gauges[numGauges] = {gauge_0, gauge_1, gauge_2, gauge_3, gauge_4, gauge_5, gauge_6};
