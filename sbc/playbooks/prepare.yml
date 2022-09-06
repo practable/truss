@@ -1,0 +1,18 @@
+---
+- name: prepare odroid for truss experiment
+  hosts: truss
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+
+  - name: Include clean up odroid sources list task
+    include: ../tasks/clean-apt-sources-odroid.yml
+
+  - name: Include install python
+    include: ../tasks/install-python.yml
+
+  handlers:
+
+  - name: Include sessionhost handlers
+    include: ../tasks/sessionhost-handlers.yml

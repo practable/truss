@@ -156,7 +156,7 @@ sudo nmap -sP 192.168.0.1/24
 Starting Nmap 7.80 ( https://nmap.org ) at 2022-08-25 13:20 BST
 Nmap scan report for _gateway (192.168.0.1)
 Host is up (0.0016s latency).
-MAC Address: yy:yy:yy:yy:yy:yy (Arris Group)
+MAC Address: yy:yy:yy:yy:yy:yy (Unknown)
 Nmap scan report for 192.168.0.29
 Host is up (0.032s latency).
 MAC Address: xx:xx:xx:xx:xx:xx 
@@ -170,7 +170,7 @@ Nmap scan report for 192.168.0.184
 Host is up (0.00027s latency).
 Nmap done: 256 IP addresses (4 hosts up) 
 ```
-Now you should see a new device. If this step does not work, then the eMMC is corrupt, the network cable/power are disconnected, or the router on your network is not permitting DHCP requests from unknown devices.
+Now you should see a new device (proa. If this step does not work, then the eMMC is corrupt, the network cable/power are disconnected, or the router on your network is not permitting DHCP requests from unknown devices.
 
 In this case the IP address is 192.168.0.29.
 

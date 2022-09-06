@@ -6,12 +6,6 @@
   
   tasks:
 
-  - name: Include clean up odroid sources list task
-    include: ../tasks/clean-apt-sources-odroid.yml
-
-  - name: Include install python
-    include: ../tasks/install-python.yml
-
   - name: Include install-sessionhost-ubuntu task
     include: ../tasks/install-sessionhost-ubuntu.yml
 
