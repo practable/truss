@@ -2,11 +2,11 @@
   - name: Include install-git 
     include: ./common/install-git-any.yml
     
-  - name: Include install-go [ubuntu]
-    include: ./common/install-go-ubuntu.yml
+  - name: Include install-go [odroid]
+    include: ./common/install-go-odroid.yml
     
-  - name: Include install ffmpeg [odroid]
-    include: ./sessionhost/install-ffmpeg-odroid.yml
+  - name: Include install ffmpeg [any]
+    include: ./sessionhost/install-ffmpeg-any.yml
 
   - name: Include install socat [any]
     include: ./sessionhost/install-socat-any.yml

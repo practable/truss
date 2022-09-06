@@ -482,3 +482,8 @@ At which point, I used a Ctrl-C to get back to the shell. `sudo` now works as ex
 odroid@odroid:~$ sudo su
 root@odroid:/home/odroid# 
 ```
+
+
+### FFMPEG
+
+FFMPEG dependencies can cause issues, and `apt` is better at resolving them than `apt-get`. Should issues occur in future, consider trying something similar to the trick we use successfully so far: is issuing `sudo apt install libsdl2-2.0-0` first to get the right version of the dependency. Note the use of `apt`, not `apt-get`.  `apt-get` wants to install 2.0.8, while `apt` can install the 2.0.10 that `ffmpeg` needs. 

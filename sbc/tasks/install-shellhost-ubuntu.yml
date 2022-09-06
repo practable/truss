@@ -14,7 +14,7 @@
      update: yes
 
  - name: shell build
-   command: /snap/bin/go build
+   command: /usr/local/go/bin/go build
    args:
      chdir: /home/ubuntu/sources/relay/cmd/shell 
 

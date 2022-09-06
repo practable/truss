@@ -6,7 +6,7 @@
       update: yes
 
   - name:  build cmd/session cmd from practable/relay [ubuntu]
-    command: /snap/bin/go build
+    command: /usr/local/go/bin/go build
     args:
       chdir: /home/ubuntu/sources/relay/cmd/session
    
