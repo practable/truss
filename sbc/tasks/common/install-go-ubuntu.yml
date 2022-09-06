@@ -1,0 +1,8 @@
+---
+
+  - name: Install go
+    community.general.snap:
+      name: go
+      classic: yes
+       
+ 

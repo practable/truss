@@ -1,0 +1,12 @@
+---
+- name: install firmware on truss experiment (to arduino)
+  hosts: truss
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+
+  - name: Include install-truss-firmware-ubuntu task
+    include: ../tasks/install-truss-firmware-ubuntu.yml
+
+

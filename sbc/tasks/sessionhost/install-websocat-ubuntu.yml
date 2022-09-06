@@ -1,0 +1,7 @@
+---
+  - name: copy websocat binary [ubuntu]
+    copy:
+      src: ../../files/websocat.ubuntu
+      dest: /usr/local/bin/websocat
+      mode: a+x
+ 

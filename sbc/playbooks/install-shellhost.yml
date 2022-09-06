@@ -1,0 +1,15 @@
+---
+- name: install shellhost on truss experiment
+  hosts: truss
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+
+  - name: Include install-shellhost-ubuntu task
+    include: ../tasks/install-shellhost-ubuntu.yml
+
+  handlers:
+
+  - name: Include shellhost handlers
+    include: ../tasks/shellhost-handlers.yml

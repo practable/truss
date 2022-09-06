@@ -1,0 +1,4 @@
+---
+
+ - name: Include sessionhost handlers
+   include: ./sessionhost/handlers.yml

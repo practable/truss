@@ -1,0 +1,100 @@
+---
+  - name: Include stop services
+    include: ./stop-session-services.yml
+    
+  - name: Copy ffmpeg-camera service file 
+    copy:
+      src: ../services/ffmpeg-camera.service
+      dest: /etc/systemd/system/ffmpeg-camera.service
+      owner: root
+      group: root
+      
+  - name: Copy session service file 
+    copy:
+      src: ../services/session.service
+      dest: /etc/systemd/system/session.service
+      owner: root
+      group: root
+       
+  - name: Copy session-rules service file 
+    copy:
+      src: ../services/session-rules.service
+      dest: /etc/systemd/system/session-rules.service
+      owner: root
+      group: root
+ 
+  - name: Copy socat-data service file 
+    copy:
+      src: ../services/socat-data.service
+      dest: /etc/systemd/system/socat-data.service
+      owner: root
+      group: root
+       
+  - name: Copy websocat-data service file 
+    copy:
+      src: ../services/websocat-data.service
+      dest: /etc/systemd/system/websocat-data.service
+      owner: root
+      group: root
+      
+  - name: Just force systemd to reread configs (2.4 and above)
+    ansible.builtin.systemd:
+      daemon_reload: yes
+ 
+  - name: start session
+    service:
+      name: session
+      state: started
+      enabled: true
+ 
+  - name: start session-rules
+    service:
+      name: session-rules
+      state: started
+      enabled: true
+ 
+  - name: start ffmpeg-camera 
+    service:
+      name: ffmpeg-camera
+      state: started
+      enabled: true
+    
+  - name: start socat-data 
+    service:
+      name: socat-data
+      state: started
+      enabled: true
+     
+  - name: start websocat-data 
+    service:
+      name: websocat-data
+      state: started
+      enabled: true
+     
+  - name: get service facts
+    service_facts:
+       
+  - name: check session service installed
+    fail:
+      msg: "session service is not installed"
+    when: ansible_facts.services["session.service"] is not defined
+ 
+  - name: check session-rules service installed
+    fail:
+       msg: "session-rules service is not installed"
+    when: ansible_facts.services["session-rules.service"] is not defined
+ 
+  - name: check ffmpeg-camera service installed
+    fail:
+      msg: "ffmpeg-camera service is not installed"
+    when: ansible_facts.services["ffmpeg-camera.service"] is not defined
+ 
+  - name: check socat-data service installed
+    fail:
+      msg: "socat-data service is not installed"
+    when: ansible_facts.services["socat-data.service"] is not defined
+ 
+  - name: check websocat-data service installed
+    fail:
+      msg: "websocat-data service is not installed"
+    when: ansible_facts.services["websocat-data.service"] is not defined     

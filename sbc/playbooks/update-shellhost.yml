@@ -1,0 +1,15 @@
+---
+- name: update shellhost on truss  experiment
+  hosts: truss
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+
+  - name: Include update-shellhost-ubuntu task
+    include: ../tasks/update-shellhost-ubuntu.yml
+
+  handlers:
+
+  - name: Include shellhost handlers
+    include: ../tasks/shellhost-handlers.yml

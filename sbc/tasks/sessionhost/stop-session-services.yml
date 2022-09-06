@@ -1,0 +1,38 @@
+---
+  - name: get service facts
+    service_facts:
+
+  - name: stop session if installed
+    service:
+      name: session
+      state: stopped
+      enabled: false
+    when: ansible_facts.services["session.service"] is defined
+     
+  - name: stop session-rules if installed
+    service:
+      name: session-rules
+      state: stopped
+      enabled: false
+    when: ansible_facts.services["session-rules.service"] is defined
+
+  - name: stop ffmpeg-camera if installed 
+    service:
+      name: ffmpeg-camera
+      state: stopped
+      enabled: false
+    when: ansible_facts.services["ffmpeg-camera.service"] is defined
+     
+  - name: stop socat-data if installed
+    service:
+      name: socat-data
+      state: stopped
+      enabled: false
+    when: ansible_facts.services["socat-data.service"] is defined
+     
+  - name: stop websocat-data if installed
+    service:
+      name: websocat-data
+      state: stopped
+      enabled: false
+    when: ansible_facts.services["websocat-data.service"] is defined   

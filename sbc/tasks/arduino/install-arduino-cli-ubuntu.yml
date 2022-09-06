@@ -1,0 +1,21 @@
+---
+  - name: Create sources directory if it does not exist
+    file:
+      path: /home/ubuntu/sources
+      state: directory
+  
+  - name: Download and unarchive the binary 
+    ansible.builtin.unarchive:
+      src: https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_ARM64.tar.gz
+      dest: /usr/local/bin
+      remote_src: yes  
+    
+  - name: Get stats of the installed binary
+    ansible.builtin.stat:
+      path: /usr/local/bin/arduino-cli
+    register: st
+  
+  - name: Print a debug message
+    ansible.builtin.debug:
+      msg: "arduino-cli is not installed"
+    when: st.stat.exists == False

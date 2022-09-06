@@ -1,0 +1,15 @@
+---
+- name: update sessionhost on truss experiment
+  hosts: truss
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+
+  - name: Include update-sessionhost task
+    include: ../tasks/update-sessionhost-ubuntu.yml
+
+  handlers:
+
+  - name: Include sessionhost handlers
+    include: ../tasks/sessionhost-handlers.yml

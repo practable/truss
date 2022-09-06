@@ -1,0 +1,30 @@
+---
+  - name: Include install-git 
+    include: ./common/install-git-any.yml
+    
+  - name: Include install-go [ubuntu]
+    include: ./common/install-go-ubuntu.yml
+    
+  - name: Include install ffmpeg [odroid]
+    include: ./sessionhost/install-ffmpeg-odroid.yml
+
+  - name: Include install socat [any]
+    include: ./sessionhost/install-socat-any.yml
+  
+  - name: Include install websocat [ubuntu]
+    include: ./sessionhost/install-websocat-ubuntu.yml
+    
+  - name: Include stop session services [any]
+    include: ./sessionhost/stop-session-services.yml
+    
+  - name: Include build session [ubuntu]
+    include: ./sessionhost/build-session-ubuntu.yml
+
+  - name: Include update session scripts [ubuntu]
+    include: ./sessionhost/update-session-scripts-ubuntu.yml
+
+  - name: Include update session services [any]
+    include: ./sessionhost/update-session-services.yml
+
+  - name: Include update session connections [any]
+    include: ./sessionhost/update-session-connections.yml

@@ -1,0 +1,4 @@
+---
+
+  - name: Include install truss firmware [ubuntu]
+    include: ./arduino/install-truss-firmware-ubuntu.yml

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# example: configure spin 32 34 https://relay-access.practable.io https://shell-access.practable.io https://shell-access2.practable.io
+
+./sessionaccess $4 $1 $2 $3
+./sessiontoken $4
+./shellservice $5
+./shellservice2 $6

@@ -1,0 +1,21 @@
+---
+  - name: get practable/relay from github
+    git:
+      repo: https://github.com/practable/relay.git
+      dest: /home/ubuntu/sources/relay
+      update: yes
+
+  - name:  build cmd/session cmd from practable/relay [ubuntu]
+    command: /snap/bin/go build
+    args:
+      chdir: /home/ubuntu/sources/relay/cmd/session
+   
+  - name: install cmd/session to usr/local/bin
+    command: cp session /usr/local/bin/session-relay
+    register: task_result
+    until: task_result.rc == 0
+    retries: 10
+    delay: 5
+    ignore_errors: yes  
+    args:
+      chdir: /home/ubuntu/sources/relay/cmd/session

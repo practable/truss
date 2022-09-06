@@ -1,0 +1,5 @@
+---
+  - name: Install the package "ffmpeg"
+    apt:
+      name: ffmpeg
+        

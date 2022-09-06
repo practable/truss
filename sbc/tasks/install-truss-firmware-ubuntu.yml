@@ -1,0 +1,7 @@
+---
+
+  - name: Include install arduino cli [ubuntu]
+    include: ./arduino/install-arduino-cli-ubuntu.yml
+    
+  - name: Include install truss firmware [ubuntu]
+    include: ./arduino/install-truss-firmware-ubuntu.yml
