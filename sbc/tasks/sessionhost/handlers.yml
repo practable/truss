@@ -1,0 +1,10 @@
+---
+    - name: Reload session-rules
+      ansible.builtin.service:
+        name: session-rules
+        state: restarted
+
+    - name: Reload socat-data
+      ansible.builtin.service:
+        name: socat-data
+        state: restarted

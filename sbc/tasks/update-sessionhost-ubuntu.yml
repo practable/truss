@@ -1,0 +1,13 @@
+---
+    
+  - name: Include stop session services [any]
+    include: ./sessionhost/stop-session-services.yml
+    
+  - name: Include update session scripts [ubuntu]
+    include: ./sessionhost/update-session-scripts-ubuntu.yml
+
+  - name: Include update session services [any]
+    include: ./sessionhost/update-session-services.yml
+
+  - name: Include update session connections [any]
+    include: ./sessionhost/update-session-connections.yml

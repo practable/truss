@@ -1,0 +1,9 @@
+---
+  - name: remove stale odroid sources list
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - '/etc/apt/sources.list.d/odroid.list'
+      - '/etc/apt/sources.list.d/hardkernel-ubuntu-ppa-bionic.list'
+      - '/etc/apt/sources.list.d/odroid.list.save'

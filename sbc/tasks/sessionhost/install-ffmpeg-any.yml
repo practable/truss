@@ -1,0 +1,8 @@
+---
+  - name: Install package using apt install so as to get the right version of "libsdl2-2.0-0"
+    ansible.builtin.command: sudo apt install -y --allow-change-held-packages libsdl2-2.0-0
+    
+  - name: Install the package "ffmpeg"
+    ansible.builtin.apt:
+      name: ffmpeg
+     

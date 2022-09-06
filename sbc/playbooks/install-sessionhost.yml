@@ -1,0 +1,15 @@
+---
+- name: install sessionhost on truss experiment
+  hosts: truss
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+
+  - name: Include install-sessionhost-ubuntu task
+    include: ../tasks/install-sessionhost-ubuntu.yml
+
+  handlers:
+
+  - name: Include sessionhost handlers
+    include: ../tasks/sessionhost-handlers.yml

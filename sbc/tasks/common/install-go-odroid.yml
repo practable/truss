@@ -1,0 +1,14 @@
+---
+  - name: Remove any existing go files 
+    file:
+      path: /usr/local/go
+      state: absent
+        
+  - name: Download and extract golang
+    ansible.builtin.unarchive:
+      src:  https://go.dev/dl/go1.19.1.linux-arm64.tar.gz
+      dest: /usr/local
+      remote_src: yes 
+
+       
+ 
