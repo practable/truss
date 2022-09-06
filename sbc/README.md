@@ -212,6 +212,8 @@ Last login: Fri Jul  1 20:11:11 2022 from 192.168.0.46
 odroid@odroid:~$  
 ```
 
+##### Password
+
 Change the password 
 
 ```
@@ -219,6 +221,37 @@ $ passwd
 ```
 
 Ideally we would also set up ssh certificates but this is a future step.
+
+
+##### Sudo
+
+Set up passwordless sudo
+
+```
+#sbc
+sudo visudo 
+```
+
+At the end of the file add
+
+```
+odroid ALL=(ALL) NOPASSWD: ALL
+```
+
+Save the file. The default editor might be joe, in which case you hit `^KX` (i.e. hold CTRL, type KX, release CTRL) to save. Assuming you made no errors, you will see:
+
+```
+File /etc/sudoers.tmp saved
+```
+
+Once the sudoers file is edited, you can check it by logging back out and back in, then trying 
+
+```
+$ sudo su
+root@odroid:/home/odroid# 
+```
+
+which should work without needing a password.
 
 You can now exit the session - we will do the next steps using ansible.
 
@@ -251,6 +284,7 @@ ansible_connection=ssh
 ansible_user=odroid
 ansible_password=somepassword
 <snip>
+
 ```
 
 
@@ -355,3 +389,96 @@ lsusb
 dmesg | tail
 ```
 
+### Error with sudo / sudoers
+
+If you made an error, you might see something like this
+```
+>>> /etc/sudoers: syntax error near line 26 <<<
+What now? 
+```
+In which case, hit `e` to go back to the editor and correct the mistake.
+
+#### Direct editing error
+
+Editing the sudoers file directly can lock you out of running commands as sudo, if you make an error. Recovering it is [straightforward](https://askubuntu.com/questions/73864/how-to-modify-an-invalid-etc-sudoers-file).
+
+Ali Tou says:
+"When this happens to a non-GUI system (your production server, maybe) the pkexec fails with this error message:
+
+```
+polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
+==== AUTHENTICATION FAILED ===
+Error executing command as another user: Not authorized
+```
+In this situation, using `pkttyagent` can be helpful. If you want to remove a corrupted file in `sudoers.d` directory, use this:
+
+```
+pkttyagent -p $(echo $$) | pkexec rm /etc/sudoers.d/FILENAME
+```
+
+If you want to recover the default `/etc/sudoers`, you can use [this gist](https://gist.github.com/alitoufighi/679304d9585304075ba1ad93f80cce0e) to copy the default configurations, putting it in a non-root accessed place (e.g. your $HOME). Then, you can overwrite your sudoers file:
+
+```
+pkttyagent -p $(echo $$) | pkexec cp ~/sudoers /etc/sudoers
+```
+NOTE: Using this approach, after running your command, probably your access to the shell will be gone. But I'm sure losing one shell session is much better than losing your server! (According to the manpage, this is the normal behavior: When its services are no longer needed, the process can be killed.)
+
+End of Answer from Ali Tou
+
+
+In short, create a file `~/sudoers` with the following contents:
+
+```
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root	ALL=(ALL:ALL) ALL
+
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo	ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on "#include" directives:
+
+#includedir /etc/sudoers.d
+
+```
+
+Then run this command:
+```
+pkttyagent -p $(echo $$) | pkexec cp ~/sudoers /etc/sudoers
+```
+
+It should say
+```
+==== AUTHENTICATING FOR org.freedesktop.policykit.exec ===
+Authentication is needed to run `/bin/cp' as the super user
+Authenticating as: ,,, (odroid)
+Password: 
+==== AUTHENTICATION COMPLETE ===
+```
+
+At which point, I used a Ctrl-C to get back to the shell. `sudo` now works as expected:
+
+```
+odroid@odroid:~$ sudo su
+root@odroid:/home/odroid# 
+```
