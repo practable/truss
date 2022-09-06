@@ -2,9 +2,10 @@
 How to set up an Odroid to run a truss experiment. 
 
 The process is fairly simple
-0. Image an eMMC card with Ubuntu 20.04 LTS and configure it to allow ssh
+0. Obtain an eMMC card with Ubuntu 20.04 LTS 
 0. Connect Odroid to power, network and a Nano IoT33 
 0. Log in to check you have ssh access
+0. Edit the sudoers file to allow passwordless sudo
 1. Run a configure script on your admin machine
 2. Run three ansible playbooks on your admin machine (which set things up on the rpi over ssh)
 3. Reboot your Odroid

@@ -25,14 +25,14 @@
   - name: Install samd core arduino
     command: arduino-cli core install arduino:samd
 
-  - name: Compile spinner firmware
+  - name: Compile truss firmware
     command: arduino-cli compile --fqbn arduino:samd:nano_33_iot MiniTruss/ --libraries /home/ubuntu/sources/truss/fw/libraries
     args:
       chdir: /home/ubuntu/sources/truss/fw
 
-  - name: Load spinner firmware onto arduino
+  - name: Load truss firmware onto arduino
     command: arduino-cli upload --port /dev/ttyACM0 --fqbn arduino:samd:nano_33_iot MiniTruss/
     args:
-      chdir: /home/pi/sources/truss/fw
+      chdir: /home/ubuntu/sources/truss/fw
     
 
