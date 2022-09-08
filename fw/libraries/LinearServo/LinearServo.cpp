@@ -158,7 +158,7 @@ int LinearServo::update()
 void LinearServo::pulse(int position)
 {
     	unsigned int high_delay = 990+(int)(10*position);	//pulse length between 990us and 2000us
-	unsigned int low_delay = this->delay - high_delay;	//the remainder of delay
+	unsigned int low_delay = this->delay; // - high_delay;	//constant delay after pulsing high
 	digitalWrite(this->signal_pin, HIGH);
 	delayMicroseconds(high_delay);
 	digitalWrite(this->signal_pin, LOW);
