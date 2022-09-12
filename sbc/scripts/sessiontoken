@@ -18,7 +18,7 @@ for i in $DIR/data.access.*; do
 	last="${BASH_REMATCH[2]}"
 	out="${first}.token.${last}"
 	export ACCESSTOKEN_TOPIC="$last-data"
-	session token > "$out"
+	sessionrelay token > "$out"
 done
 
 export ACCESSTOKEN_READ=false
@@ -29,5 +29,5 @@ for i in $DIR/video.access.*; do
 	last="${BASH_REMATCH[2]}"
 	out="${first}.token.${last}"
 	export ACCESSTOKEN_TOPIC="$last-video"
-	session token > "$out"
+	sessionrelay token > "$out"
 done

@@ -76,10 +76,15 @@ The setup is best done from a linux machine. We have no plans to support commerc
 - Linux 
    - recommend Ubuntu 20.04 LTS
 - Practable's [relay](https://github.com/practable/relay) 
-    - ensure the `sessionrelay` and `shellrelay` commands are in your path 
+    - ensure the `sessionrelay` and `shellrelay` commands are in your path
+    - you may need to rename the commands from `session` to `sessionrelay`, and `shell` to `shellrelay` when you copy them to `/usr/local/bin'.
+- Mo templating in bash 
+    - see [github](https://github.com/tests-always-included/mo) for installation
+    - there are other ways to get mo (e.g. with python) but we don't know if they work, so avoid for now.
 - Ansible 
    - Tasks developed with v2.9.17 and python 3.7.4
    - [Installation](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+
    
 ### Information
 
@@ -299,7 +304,7 @@ Create the configuration files we need, assuming we are using the standard pract
 ```
 #local
 cd scripts
-.configure truss 00 00 https://relay-access.practable.io https://shell-access.practable.io https://shell-access2.practable.io
+./configure trus 00 00 https://relay-access.practable.io https://shell-access.practable.io https://shell-access2.practable.io
 ```
 
 ##### Session
@@ -309,10 +314,10 @@ Now we can run our ansible playbooks - these each take some time, so get the ket
 ```
 #local
 cd playbooks
-ansible-playbook prepare
-ansible-playbook install-session
-ansible-playbook install-shell
-ansible-playbook install-firmware
+ansible-playbook prepare.yml
+ansible-playbook install-session.yml
+ansible-playbook install-shell.yml
+ansible-playbook install-firmware.yml
 ```
 
 If those commands go smoothly, then you are done with the install. If not, then re-run the playbook with the issue, before moving on. If that fails, check out the troubleshooting guide below.
