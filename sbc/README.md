@@ -77,7 +77,7 @@ The setup is best done from a linux machine. We have no plans to support commerc
    - recommend Ubuntu 20.04 LTS
 - Practable's [relay](https://github.com/practable/relay) 
     - ensure the `sessionrelay` and `shellrelay` commands are in your path
-    - you may need to rename the commands from `session` to `sessionrelay`, and `shell` to `shellrelay` when you copy them to `/usr/local/bin' to achieve this
+    - you may need to rename the commands from `session` to `sessionrelay`, and `shell` to `shellrelay` when you copy them to `/usr/local/bin'.
 - Mo templating in bash 
     - see [github](https://github.com/tests-always-included/mo) for installation
     - there are other ways to get mo (e.g. with python) but we don't know if they work, so avoid for now.
