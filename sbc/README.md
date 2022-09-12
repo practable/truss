@@ -76,10 +76,15 @@ The setup is best done from a linux machine. We have no plans to support commerc
 - Linux 
    - recommend Ubuntu 20.04 LTS
 - Practable's [relay](https://github.com/practable/relay) 
-    - ensure the `sessionrelay` and `shellrelay` commands are in your path 
+    - ensure the `sessionrelay` and `shellrelay` commands are in your path
+    - you may need to rename the commands from `session` to `sessionrelay`, and `shell` to `shellrelay` when you copy them to `/usr/local/bin' to achieve this
+- Mo templating in bash 
+    - see [github](https://github.com/tests-always-included/mo) for installation
+    - there are other ways to get mo (e.g. with python) but we don't know if they work, so avoid for now.
 - Ansible 
    - Tasks developed with v2.9.17 and python 3.7.4
    - [Installation](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+
    
 ### Information
 
