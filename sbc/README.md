@@ -304,7 +304,7 @@ Create the configuration files we need, assuming we are using the standard pract
 ```
 #local
 cd scripts
-.configure truss 00 00 https://relay-access.practable.io https://shell-access.practable.io https://shell-access2.practable.io
+./configure trus 00 00 https://relay-access.practable.io https://shell-access.practable.io https://shell-access2.practable.io
 ```
 
 ##### Session
@@ -314,10 +314,10 @@ Now we can run our ansible playbooks - these each take some time, so get the ket
 ```
 #local
 cd playbooks
-ansible-playbook prepare
-ansible-playbook install-session
-ansible-playbook install-shell
-ansible-playbook install-firmware
+ansible-playbook prepare.yml
+ansible-playbook install-session.yml
+ansible-playbook install-shell.yml
+ansible-playbook install-firmware.yml
 ```
 
 If those commands go smoothly, then you are done with the install. If not, then re-run the playbook with the issue, before moving on. If that fails, check out the troubleshooting guide below.
