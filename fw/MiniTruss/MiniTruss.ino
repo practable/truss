@@ -21,6 +21,7 @@
 #include "HX711.h"
 #include "LinearServo.h"
 #include "ArduinoJson-v6.9.1.h"
+#include <FlashStorage.h>
 
 //JSON serialization
 #define COMMAND_SIZE 64  //originally 64
