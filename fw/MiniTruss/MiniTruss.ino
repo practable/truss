@@ -24,7 +24,7 @@
 #include <FlashStorage.h>
 
 //JSON serialization
-#define COMMAND_SIZE 64  //originally 64
+#define COMMAND_SIZE 192  //originally 64 - increased for length of cal data + uuid authorization https://arduinojson.org/v6/assistant
 StaticJsonDocument<COMMAND_SIZE> doc;
 char command[COMMAND_SIZE];
 
@@ -110,6 +110,38 @@ unsigned long waitStartTime = 0;
 //Additional variables for new Truss PCB design - Imogen Heard 18/08/22
 #define OUTPUT_ENABLE A1   // Must be set high if using Logic Level Shifters
 
+// SECURE CALIBRATION VARIABLES ============================
+
+#define FLASH_WRITES_MAX 3
+#define SECRET_LEN_MAX 99
+#define SCALE_FACTOR_LEN 7
+
+// calibration value indices in cal array
+#define LOAD_CELL 0
+#define MEMBER_1 1
+#define MEMBER_2 2
+#define MEMBER_3 3
+#define MEMBER_4 4
+#define MEMBER_5 5
+#define MEMBER_6 6
+
+// Create a structure that stores the cal data
+typedef struct {
+  boolean secure;          // Set this true when secret is first written 
+  boolean valid;           // Set this true when calibration data is first written
+  char secret[SECRET_LEN_MAX];  // Secret string for authorising calibration updates (typically a uuid of 36 chars in form 8-4-4-4-12)
+  int  writes;             // Count number of remaining writes we'll permit
+  // You can change the values below here to suit your experiment
+  float scale_factor[SCALE_FACTOR_LEN];   // Scale factors for some experiment or other
+} Calibration;
+
+// Create a global "Calibration" variable and call it cal
+Calibration cal;
+
+// Reserve a portion of flash memory to store a "Calibration" and
+// call it "cal_store".
+FlashStorage(cal_store, Calibration);
+
 /**
  * Defines the valid states for the state machine
  * 
@@ -126,7 +158,10 @@ typedef enum
   STATE_GAUGE_RESET = 7,    //resets all gauges
   STATE_WAIT = 8,    //a wait state to allow functions like taring to complete before returning to READ state.
   STATE_CALIBRATE = 9,
-//  STATE_HARD_LIMIT = 10,
+  STATE_STARTUP = 10,        // anything to do with starting up the experiment
+  STATE_SETSECRET = 11,     // await authorisation setup before accepting calibration data
+  STATE_SETCAL = 12,       // await a calibration data before beginning normal operation of the experiment
+  STATE_LOADCAL = 13,      // update calibration
   
 } StateType;
 
@@ -142,7 +177,19 @@ void Sm_State_Tare_All(void);
 void Sm_State_Gauge_Reset(void);
 void Sm_State_Wait(void);
 void Sm_State_Calibrate(void);
-//void Sm_State_Hard_Limit(void);
+void Sm_State_StartUp(void);
+void Sm_State_SetSecret(void);
+void Sm_State_SetCal(void);
+void Sm_State_LoadCal(void);
+
+// cal function prototypes (here because readSerialJSON has to come after StateType definition)
+bool cal_is_secure();
+bool cal_is_valid();
+void startTimer(int);
+void report_cal();
+void cal_set_secret(const char *);
+void cal_set_values(StaticJsonDocument<COMMAND_SIZE>);
+StateType readSerialJSON(StateType); //has to come after type definition
 
 /**
  * Type definition used to define the state
@@ -170,16 +217,20 @@ StateMachineType StateMachine[] =
   {STATE_GAUGE_RESET, Sm_State_Gauge_Reset},
   {STATE_WAIT, Sm_State_Wait},
   {STATE_CALIBRATE, Sm_State_Calibrate},
-//  {STATE_HARD_LIMIT, Sm_State_Hard_Limit},
+  {STATE_STARTUP,     Sm_State_StartUp},
+  {STATE_SETSECRET,   Sm_State_SetSecret}, 
+  {STATE_SETCAL,      Sm_State_SetCal},
+  {STATE_LOADCAL,     Sm_State_LoadCal}, 
+
 };
  
-int NUM_STATES = 11;
+int NUM_STATES = 14;
 
 /**
  * Stores the current state of the state machine
  */
  
-StateType SmState = STATE_GAUGE_RESET;    //START IN THE GAUGE RESET STATE, which initialises the gauges
+StateType SmState = STATE_STARTUP;    //STATE_GAUGE_RESET will need to be reached before correct functioning
 
 //DEFINE STATE MACHINE FUNCTIONS================================================================
 
@@ -350,27 +401,49 @@ void Sm_State_Calibrate(void){
   
 }
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ HARD LIMIT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//TRANSITION: STATE_HARD_LIMIT -> STATE_HARD_LIMIT
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ STATE_STARTUP ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//TRANSITION: STATE_STARTUP -> STATE_SECURECAL (if calibration is secure and valid)
+void Sm_State_StartUp(void){
 
-//void Sm_State_Hard_Limit(void){
-//
-//    //ensure servo doesn't try to keep moving
-//    moveToPos = 0;
-//    servo.updateMoveTo(moveToPos);
-//    //reset the servo
-//    servo.zero();
-//  
-//    currentPos = 0;
-//    
-//    waitStartTime = millis();
-//    waitInterval = 5000;
-//  
-//    limitReached = false;
-//    SmState = STATE_WAIT;
-//  
-//  
-//}
+    // do any other start up tasks required before checking/loading calibration here
+    
+    SmState = STATE_SETSECRET;
+
+}
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ STATE_SETSECRET ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//TRANSITION: STATE_SETSECRET -> STATE_SETCAL (if cal is secure)
+void Sm_State_SetSecret(void){
+
+  if (cal_is_secure()) {
+    SmState = STATE_SETCAL; //we let startup state dictate progress through essential tasks
+    }
+
+  SmState = STATE_SETSECRET; 
+  
+}
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ STATE_SETCAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//TRANSITION: STATE_SETCAL -> STATE_LOADCAL (if cal is set)
+void Sm_State_SetCal(void){
+
+  if (!cal_is_valid()) {        //IS THIS RIGHT?
+    SmState = STATE_LOADCAL;
+    }
+
+  SmState = STATE_SETCAL; 
+  
+}
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ STATE_LOADCAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//TRANSITION: STATE_LOADCAL -> STATE_STANDBY (if cal is set)
+void Sm_State_LoadCal(void){
+  // should this really be empty?
+   
+  
+}
+
+
+
+
 
 //STATE MACHINE RUN FUNCTION
 void Sm_Run(void)
@@ -433,8 +506,15 @@ StateType readSerialJSON(StateType SmState){
     Serial.readBytesUntil(10, command, COMMAND_SIZE);
     deserializeJson(doc, command);
     
-    const char* set = doc["set"];
+    const char* get = doc["get"];
+    
+    if(strcmp(get, "cal")==0) {
+      report_cal();
+      return SmState; // force {"get":cal"} to be a stand-alone command that can't be combined with set
+    }
 
+    const char* set = doc["set"];
+    
     if(strcmp(set, "position")==0)
     {
   
@@ -500,6 +580,15 @@ StateType readSerialJSON(StateType SmState){
         }
         
     }  
+    else if(strcmp(set, "secret")==0)
+    {
+        const char* secret = doc["to"]; 
+        cal_set_secret(secret); // this function can be safely called many times because it ignores all but the first non-empty secret 
+    } 
+    else if(strcmp(set, "cal")==0)
+    {
+     cal_set_values(doc);
+    } 
     
   }
       return SmState;     //return whatever state it changed to or maintain the state.
@@ -541,6 +630,131 @@ void reportState(int state){
   Serial.print(state);
   Serial.println("}");
 }
+
+void report_cal(){
+  Serial.print("{\"report\":\"cal\",\"secure\":");
+  Serial.print(cal.secure);
+  Serial.print(",\"valid\":");
+  Serial.print(cal.valid);
+  Serial.print(",\"writes_left\":");
+  Serial.print(cal.writes);  
+  Serial.print(",\"sf_load\":"); 
+  Serial.print(cal.scale_factor[LOAD_CELL]);
+  Serial.print(",\"sf_m1\":"); 
+  Serial.print(cal.scale_factor[MEMBER_1]); 
+  Serial.print(",\"sf_m2\":"); 
+  Serial.print(cal.scale_factor[MEMBER_2]);  
+  Serial.print(",\"sf_m3\":"); 
+  Serial.print(cal.scale_factor[MEMBER_3]); 
+  Serial.print(",\"sf_m4\":"); 
+  Serial.print(cal.scale_factor[MEMBER_4]);      
+  Serial.print(",\"sf_m5\":"); 
+  Serial.print(cal.scale_factor[MEMBER_5]); 
+  Serial.print(",\"sf_m6\":"); 
+  Serial.print(cal.scale_factor[MEMBER_6]);    
+  Serial.print(cal.valid); 
+  Serial.println("}");
+ 
+}
+
+bool cal_is_secure(){
+
+    cal = cal_store.read();
+  
+    return cal.secure;
+    
+  }
+
+bool cal_is_valid(){
+
+    cal = cal_store.read();
+ 
+    return (cal.secure && cal.valid);
+    
+  }
+
+// set the secret for authorising changes to calibration data
+void cal_set_secret(const char *secret){
+
+    if (secret[0] == '\0') { 
+      return; //empty string
+    }
+  
+    cal = cal_store.read();
+    
+    if (cal.secure){ // only set secret once
+       Serial.println("{\"error\":\"secret already set\"}");
+    } else {
+        strncpy(cal.secret, secret, (sizeof cal.secret) - 1);
+        cal.secure = true;
+        cal.writes = FLASH_WRITES_MAX;
+        cal_store.write(cal);
+        Serial.println("{\"log\":\"secret\",\"is\":\"set\"}"); 
+      }
+  }
+
+// set the calibration values
+void cal_set_values(StaticJsonDocument<COMMAND_SIZE> doc){
+  
+      cal = cal_store.read();
+
+      if (!cal.secure) {
+        Serial.println("{\"error\":\"cal secret not set\"}");
+        return; // don't set values before setting authorisation (prevent rogue writes)
+      }
+
+      if (cal.writes <= 0) {
+        Serial.println("{\"error\":\"no more cal writes permitted - reflash firmware to reset counter\"}");
+        return; // prevent writes if remaining write count has reached zero
+      }
+      
+      const char* secret =  doc["auth"];
+
+      
+      if (!(strcmp(cal.secret, secret)==0)) {
+          Serial.println("{\"error\":\"wrong secret\"}");
+          return; // don't set values if auth code does not match secret
+        } 
+
+      JsonArray values = doc["to"];
+
+      if (values.size() != SCALE_FACTOR_LEN) { 
+        Serial.print("{\"error\":\"wrong number of values in cal array\",");
+        Serial.print("\"want\":");
+        Serial.print(SCALE_FACTOR_LEN);
+        Serial.print(",\"have\":");
+        Serial.print(values.size());
+        Serial.println("}");
+        return; // don't set cal values if wrong number 
+        } //size ok
+
+        cal.writes -= 1;
+        cal.valid = true;
+                        
+        Serial.print("{\"log\":\"cal\",\"is\":\"ok\",\"values\":[");
+        for (int i=0; i<SCALE_FACTOR_LEN; i++) {
+            cal.scale_factor[i]= values[i];
+            Serial.print(cal.scale_factor[i]);
+            if (i<(SCALE_FACTOR_LEN-1)){
+               Serial.print(",");
+            } 
+            else 
+            {
+               Serial.print("],\"writes_remaining\":");
+               Serial.print(cal.writes);
+               Serial.println("}");
+            }
+          } // for
+        
+        cal_store.write(cal);
+}
+
+
+bool load_cal(){
+  
+    cal = cal_store.read();
+    
+  }
 
 void initialiseGauges(){
   for(int i=0;i<numGauges;i++){
