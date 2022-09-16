@@ -17,6 +17,9 @@
 // 01/09/22
 // dprydereid@gmail.com
 
+// Updated with secure flash storage of calibration data using https://github.com/timdrysdale/nanoflash 
+//14/09/22
+
 // IMPORT LIBRARIES
 #include "HX711.h"
 #include "LinearServo.h"
