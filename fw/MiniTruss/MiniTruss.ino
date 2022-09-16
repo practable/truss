@@ -235,11 +235,22 @@ int NUM_STATES = 14;
  
 StateType SmState = STATE_STARTUP;    //STATE_GAUGE_RESET will need to be reached before correct functioning
 
+//TESTING ONLY
+//unsigned long reportInterval = 1000;    //write out cal data
+//unsigned long previousReport = 0;
+
+
 //DEFINE STATE MACHINE FUNCTIONS================================================================
 
 //TRANSITION: STATE_STANDBY -> STATE_STANDBY
 void Sm_State_Standby(void){
 
+//TESTING
+//  if(millis() - previousReport >= reportInterval){
+//    report_cal();
+//    previousReport = millis();
+//  }
+  
   SmState = STATE_STANDBY;
   
 }
@@ -420,27 +431,33 @@ void Sm_State_SetSecret(void){
 
   if (cal_is_secure()) {
     SmState = STATE_SETCAL; //we let startup state dictate progress through essential tasks
+    } else{
+      SmState = STATE_SETSECRET;
     }
 
-  SmState = STATE_SETSECRET; 
+   
   
 }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ STATE_SETCAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //TRANSITION: STATE_SETCAL -> STATE_LOADCAL (if cal is set)
 void Sm_State_SetCal(void){
 
-  if (!cal_is_valid()) {        //IS THIS RIGHT?
-    SmState = STATE_LOADCAL;
+  if (cal_is_valid()) {        //IS THIS RIGHT?
+      SmState = STATE_LOADCAL;
+    } else{
+      SmState = STATE_SETCAL;
     }
 
-  SmState = STATE_SETCAL; 
   
 }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ STATE_LOADCAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //TRANSITION: STATE_LOADCAL -> STATE_STANDBY (if cal is set)
 void Sm_State_LoadCal(void){
-  // should this really be empty?
-   
+  
+
+  SmState = STATE_GAUGE_RESET;      //this should be the final version
+
+  //SmState = STATE_STANDBY;      //FOR TESTING
   
 }
 
