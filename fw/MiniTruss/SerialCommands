@@ -30,3 +30,4 @@
 {"get":"cal"}
 {"set":"cal","to":[3.0,3.1,3.2,3.3,3.4,3.5,3.6],"auth":"foo"}  // since MAX_FLASH_WRITES is set to 3, this fourth write won't work
 {"get":"cal"} // should give last good cal details
+{"get":"cal_load"} // gives the values of the scale factors loaded into the firmware

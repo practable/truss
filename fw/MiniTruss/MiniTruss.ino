@@ -247,7 +247,7 @@ void Sm_State_Standby(void){
 
 //TESTING
 //  if(millis() - previousReport >= reportInterval){
-//    report_cal();
+//    report_cal_loaded();
 //    previousReport = millis();
 //  }
   
@@ -456,13 +456,14 @@ void Sm_State_LoadCal(void){
 
   if(load_cal()){
     SmState = STATE_GAUGE_RESET;      //this should be the final version
+    //SmState = STATE_STANDBY;      //FOR TESTING
   } else{
     SmState = STATE_LOADCAL;
   }
 
   
 
-  //SmState = STATE_STANDBY;      //FOR TESTING
+  
   
 }
 
