@@ -89,14 +89,14 @@ HX711 gauge_6;
 //const float scale_factor_5 = scale_factor_1*0.818;
 //const float scale_factor_6 = scale_factor_1*0.924;
 
-//still testing these factors
-const float scale_load = -371.8;
-const float scale_factor_1 = 27.5;
-const float scale_factor_2 = 53.1;
-const float scale_factor_3 = 22.4;
-const float scale_factor_4 = 80.7;
-const float scale_factor_5 = 30.1;
-const float scale_factor_6 = 26.1;
+//these are the average values of the first 8 trusses. The specific calibration data for each truss is loaded at startup.
+float scale_load = -371.8;
+float scale_factor_1 = 69.84;
+float scale_factor_2 = 99.27;
+float scale_factor_3 = 34.44;
+float scale_factor_4 = 178.82;
+float scale_factor_5 = 67.30;
+float scale_factor_6 = 47.86;
 
 
 HX711 gauges[numGauges] = {gauge_0, gauge_1, gauge_2, gauge_3, gauge_4, gauge_5, gauge_6};
@@ -453,9 +453,14 @@ void Sm_State_SetCal(void){
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ STATE_LOADCAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //TRANSITION: STATE_LOADCAL -> STATE_STANDBY (if cal is set)
 void Sm_State_LoadCal(void){
-  
 
-  SmState = STATE_GAUGE_RESET;      //this should be the final version
+  if(load_cal()){
+    SmState = STATE_GAUGE_RESET;      //this should be the final version
+  } else{
+    SmState = STATE_LOADCAL;
+  }
+
+  
 
   //SmState = STATE_STANDBY;      //FOR TESTING
   
@@ -531,6 +536,9 @@ StateType readSerialJSON(StateType SmState){
     if(strcmp(get, "cal")==0) {
       report_cal();
       return SmState; // force {"get":cal"} to be a stand-alone command that can't be combined with set
+    } else if(strcmp(get, "cal_load")==0) {
+      report_cal_loaded();
+      return SmState; 
     }
 
     const char* set = doc["set"];
@@ -677,6 +685,26 @@ void report_cal(){
  
 }
 
+void report_cal_loaded(){
+  Serial.print("{\"report\":\"cal\"");  
+  Serial.print(",\"sf_load\":"); 
+  Serial.print(scale_load);
+  Serial.print(",\"sf_m1\":"); 
+  Serial.print(scale_factor_1); 
+  Serial.print(",\"sf_m2\":"); 
+  Serial.print(scale_factor_2);  
+  Serial.print(",\"sf_m3\":"); 
+  Serial.print(scale_factor_3); 
+  Serial.print(",\"sf_m4\":"); 
+  Serial.print(scale_factor_4);      
+  Serial.print(",\"sf_m5\":"); 
+  Serial.print(scale_factor_5); 
+  Serial.print(",\"sf_m6\":"); 
+  Serial.print(scale_factor_6);     
+  Serial.println("}");
+ 
+}
+
 bool cal_is_secure(){
 
     cal = cal_store.read();
@@ -690,6 +718,29 @@ bool cal_is_valid(){
     cal = cal_store.read();
  
     return (cal.secure && cal.valid);
+    
+  }
+
+bool load_cal(){
+
+    cal = cal_store.read();
+
+    if(cal.secure && cal.valid){
+        scale_load = cal.scale_factor[LOAD_CELL];
+        scale_factor_1 = cal.scale_factor[MEMBER_1];
+        scale_factor_2 = cal.scale_factor[MEMBER_2];
+        scale_factor_3 = cal.scale_factor[MEMBER_3];
+        scale_factor_4 = cal.scale_factor[MEMBER_4];
+        scale_factor_5 = cal.scale_factor[MEMBER_5];
+        scale_factor_6 = cal.scale_factor[MEMBER_6];
+        Serial.println("{\"log\":\"load\",\"cal\":\"loaded\"}"); 
+        return true;
+    } 
+    else
+    {
+      return false;
+    }
+    
     
   }
 
@@ -769,12 +820,6 @@ void cal_set_values(StaticJsonDocument<COMMAND_SIZE> doc){
         cal_store.write(cal);
 }
 
-
-bool load_cal(){
-  
-    cal = cal_store.read();
-    
-  }
 
 void initialiseGauges(){
   for(int i=0;i<numGauges;i++){
