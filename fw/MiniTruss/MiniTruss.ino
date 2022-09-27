@@ -20,6 +20,10 @@
 // Updated with secure flash storage of calibration data using https://github.com/timdrysdale/nanoflash 
 //14/09/22
 
+// Because of slightly different behaviour on different truss setups, have updated the resetting of the truss so that it performs a reset here on startup, but that
+//"zeroing" on the UI is really just setting to zero position rather than performing the reset function - which is only really to be used for a hard reset on power
+// loss.
+
 // IMPORT LIBRARIES
 #include "HX711.h"
 #include "LinearServo.h"

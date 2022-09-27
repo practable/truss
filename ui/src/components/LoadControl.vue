@@ -209,9 +209,12 @@ export default {
             this.$store.dispatch('tare');
         },
         reset(){
+            //no longer runs the hard reset function on the truss, instead sets position to 0. Hard reset will run on startup in firmware
+            //Will still do this on startup, but sets 0 rather than reset mode.
             this.setMessage('Please wait, resetting hardware...');
-            this.$store.dispatch('reset');
+            //this.$store.dispatch('reset');
             this.servo_input = 0.00;
+            this.setPositionAndMove(this.servo_input);
         },
         tareLoad(){
             this.setMessage('Please wait, load cell taring...');
