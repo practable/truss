@@ -501,6 +501,12 @@ void setup() {
   digitalWrite(OUTPUT_ENABLE, HIGH);
 
   previousTime = millis();
+
+  // zero the servo only on startup
+  servo.zero();
+  delay(2000);    //give it some time to reset
+
+  
   //Serial communication for sending data -> RPi -> Server
   Serial.begin(57600);
   while(!Serial);
