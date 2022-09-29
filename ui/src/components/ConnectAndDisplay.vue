@@ -6,7 +6,7 @@
     </div>
 
       <div v-else class='col-sm-12' id='overlay'>
-            <img id='truss-image' src='../../public/images/truss-image.jpg' alt='truss-image'>
+            <img id='truss-image' src='../../public/images/truss-mini-image.jpg' alt='truss-image'>
 
             <div :class="[{highlighted: (highlighted_index.includes(0))}, {unhighlighted: (!highlighted_index.includes(0))}, 'pt-2']" id='load-cell' :hidden='!getShowForce'>{{getCurrent.load_cell}} N</div>
 
@@ -211,7 +211,7 @@ img{
 
 #gauge-3{
   position:absolute;
-  top:45%;
+  top:35%;
   left:50%;
   width: 10%;
   height:5%;
