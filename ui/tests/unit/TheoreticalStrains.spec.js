@@ -29,36 +29,36 @@ describe('TheoreticalStrains', () => {
 
   test('calculate correct gauge values, positive load', () => {
     const store = createVuexStore();
-    store.dispatch('setCurrent', {load_cell: 10.0});
+    store.dispatch('setCurrent', {load_cell: 150.0});
     const wrapper = mount(TheoreticalStrains, {
       global:{
         plugins: [store]
       }
     });
 
-    expect(wrapper.find('#gauge-theory-1').text()).toContain('-22.6');
-    expect(wrapper.find('#gauge-theory-2').text()).toContain('16');
-    expect(wrapper.find('#gauge-theory-3').text()).toContain('16');
-    expect(wrapper.find('#gauge-theory-4').text()).toContain('-16');
-    expect(wrapper.find('#gauge-theory-5').text()).toContain('-22.6');
-    expect(wrapper.find('#gauge-theory-6').text()).toContain('32');
+    expect(wrapper.find('#gauge-theory-1').text()).toContain('530');
+    expect(wrapper.find('#gauge-theory-2').text()).toContain('-375');
+    expect(wrapper.find('#gauge-theory-3').text()).toContain('-375');
+    expect(wrapper.find('#gauge-theory-4').text()).toContain('375');
+    expect(wrapper.find('#gauge-theory-5').text()).toContain('530');
+    expect(wrapper.find('#gauge-theory-6').text()).toContain('-750');
   })
 
   test('calculate correct gauge values, negative load', () => {
     const store = createVuexStore();
-    store.dispatch('setCurrent', {load_cell: -10.0});
+    store.dispatch('setCurrent', {load_cell: -150.0});
     const wrapper = mount(TheoreticalStrains, {
       global:{
         plugins: [store]
       }
     });
 
-    expect(wrapper.find('#gauge-theory-1').text()).toContain('22.6');
-    expect(wrapper.find('#gauge-theory-2').text()).toContain('-16');
-    expect(wrapper.find('#gauge-theory-3').text()).toContain('-16');
-    expect(wrapper.find('#gauge-theory-4').text()).toContain('16');
-    expect(wrapper.find('#gauge-theory-5').text()).toContain('22.6');
-    expect(wrapper.find('#gauge-theory-6').text()).toContain('-32');
+    expect(wrapper.find('#gauge-theory-1').text()).toContain('-530');
+    expect(wrapper.find('#gauge-theory-2').text()).toContain('375');
+    expect(wrapper.find('#gauge-theory-3').text()).toContain('375');
+    expect(wrapper.find('#gauge-theory-4').text()).toContain('-375');
+    expect(wrapper.find('#gauge-theory-5').text()).toContain('-530');
+    expect(wrapper.find('#gauge-theory-6').text()).toContain('750');
   })
 
   test('calculate correct gauge values, 0 load', () => {

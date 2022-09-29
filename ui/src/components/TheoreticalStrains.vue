@@ -51,8 +51,8 @@ export default {
   data(){
     return {
         load_position: 0,       //for different positions of the loading cell: 0 => L2
-        beam_width: 0.025,
-        beam_breadth: 0.010,
+        beam_width: 0.020,
+        beam_breadth: 0.008,
         beam_modulus: 2.5E9,
     }
   },
