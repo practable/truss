@@ -503,3 +503,20 @@ root@odroid:/home/odroid#
 ### FFMPEG
 
 FFMPEG dependencies can cause issues, and `apt` is better at resolving them than `apt-get`. Should issues occur in future, consider trying something similar to the trick we use successfully so far: is issuing `sudo apt install libsdl2-2.0-0` first to get the right version of the dependency. Note the use of `apt`, not `apt-get`.  `apt-get` wants to install 2.0.8, while `apt` can install the 2.0.10 that `ffmpeg` needs. 
+
+
+#### Manual token updates
+
+If you want to do a manual token update, then use the configure scripts to autogenerate the token.
+
+Rather than scp, which cannot be done on the shell relay for now, you should do as follows
+
+- log into the odroid
+- cat the relevant token in your autogen directory
+- sudo rm /etc/practable/data.token
+sudo nano /etc/practable/data.token
+- paste in your token contents (mind only one line, and don't delete last char when removing last line, check last char against original
+- repeat process for video.token
+- sudo systemctl restart session-rules
+
+then check getSessionStats.sh as usual
