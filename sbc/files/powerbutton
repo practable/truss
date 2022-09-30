@@ -4,7 +4,7 @@
 check () {
 	button=$(cat /sys/class/gpio/gpio477/value)
 	echo $button
-	if [ button == "0" ]
+	if [ "$button" == "0" ]
 	then
 		x=1
 		b=0
@@ -12,7 +12,7 @@ check () {
 		do
 			button=$(cat /sys/class/gpio/gpio477/value)
 			echo $button
-		    if [ button != "0" ]
+		    if [ "$button" != "0" ]
 			then
 			   b=$(( $b + 1 )) #increment b if not zero
 			fi
