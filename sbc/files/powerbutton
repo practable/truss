@@ -11,13 +11,16 @@ check () {
 		do
 			button=$(cat /sys/class/gpio/gpio477/value)
 		    if [ button != 0 ]
+			then
 			   b=$(( $b + 1 ))
 			fi
-			   x=$(( $x + 1 ))
-			   sleep 0.2
+			x=$(( $x + 1 ))
+			sleep 0.2
 			   			   
 		done
 		if [ b -le 0 ]
+		then
+			
 		   echo 1 > /sys/class/gpio/gpio478/value
 		   echo SHUTDOWN COMMAND GOES HERE
 		   exit 0 #redundant - just here for testing
