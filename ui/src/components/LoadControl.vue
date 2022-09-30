@@ -77,7 +77,7 @@
             <div class='row mb-2' id='control-div'>
                 <div class='col-12'>
                     <h3> Load control </h3>
-                    <p> The load force is controlled using a linear actuator. The actuator can be positioned between 0 and 20. Reset will return the stepper to 
+                    <p> The load force is controlled using a linear actuator. The actuator can be positioned between 0 and 15. Reset will return the stepper to 
                         its 0 position. Tare will zero the gauge measurements.
                     </p>
                 </div>
@@ -90,7 +90,7 @@
 
                 <div v-else-if='controlVersion == 1' class='col-12'>
                     <h3> Control Mode </h3>
-                    <p> A simple slider allows you to position the stepper between 0 and 20. Smaller changes can be chosen using the 
+                    <p> A simple slider allows you to position the stepper between 0 and 15. Smaller changes can be chosen using the 
                         buttons below the slider.
                     </p>
                 </div>

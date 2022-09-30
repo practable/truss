@@ -29,7 +29,7 @@
             <div class='row mb-2' id='help-div'>
           
               <h3> Strain gauge Display </h3>
-              <p> Values from the 6 strain gauges and load cell are displayed here. Tye next gauge is updated approximately every second. After changing the load, please 
+              <p> Values from the 6 strain gauges and load cell are displayed here. The next gauge is updated approximately every second. After changing the load, please 
                 allow all values to update.
               </p>
                 
