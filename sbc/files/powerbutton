@@ -20,7 +20,8 @@ check () {
 			sleep 0.2
 			   			   
 		done
-		if [ b -le 0 ] #only shutdown if button was 0 (pressed) on every check
+		echo "button count is $b"
+		if [ $b -le 0 ] #only shutdown if button was 0 (pressed) on every check
 		then
 		   	
 		   echo 1 > /sys/class/gpio/gpio478/value
