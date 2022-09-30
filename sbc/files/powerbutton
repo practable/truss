@@ -3,6 +3,7 @@
 
 check () {
 	button=$(cat /sys/class/gpio/gpio477/value)
+	echo $button
 	if [ button == 0 ]
 	then
 		x=1
@@ -10,6 +11,7 @@ check () {
 		while [ $x -le 5 ]
 		do
 			button=$(cat /sys/class/gpio/gpio477/value)
+			echo $button
 		    if [ button != 0 ]
 			then
 			   b=$(( $b + 1 ))
@@ -20,17 +22,18 @@ check () {
 		done
 		if [ b -le 0 ]
 		then
-			
+		   	
 		   echo 1 > /sys/class/gpio/gpio478/value
-		   echo SHUTDOWN COMMAND GOES HERE
+		   echo "SHUTDOWN COMMAND GOES HERE"
 		   exit 0 #redundant - just here for testing
 		fi
+		echo "DID NOT SHUTDOWN"
 	fi
 }
 
 # https://wiki.odroid.com/odroid-c4/application_note/gpio/enhancement_gpio
-echo 477 > /sys/class/gpio/export 
-echo 478 > /sys/class/gpio/export
+echo 477 > /sys/class/gpio/export 2> /dev/null #ignore errors if re-starting script
+echo 478 > /sys/class/gpio/export 2> /dev/null #ignore errors if re-starting script
 
 # this pin (GPIO.1, pin 18) defaults to input with pullup but set direction for safety anyway
 echo in > /sys/class/gpio/gpio477/direction
