@@ -25,8 +25,8 @@ check () {
 		then
 		   	
 		   echo 1 > /sys/class/gpio/gpio478/value
-		   echo "SHUTDOWN COMMAND GOES HERE"
-		   exit 0 #redundant - just here for testing
+		   echo "SHUTTING DOWN NOW"
+		   halt
 		fi
 		echo "DID NOT SHUTDOWN"
 	fi
