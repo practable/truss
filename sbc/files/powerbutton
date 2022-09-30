@@ -1,0 +1,39 @@
+#!/bin/bash
+
+
+check () {
+	button=$(cat /sys/class/gpio/gpio477/value)
+	if [ button == 0 ]
+	then
+		x=1
+		b=0
+		while [ $x -le 5 ]
+		do
+			button=$(cat /sys/class/gpio/gpio477/value)
+		    if [ button != 0 ]
+			   b=$(( $b + 1 ))
+			fi
+			   x=$(( $x + 1 ))
+			   sleep 0.2
+			   			   
+		done
+		if [ b -le 0 ]
+		   echo 1 > /sys/class/gpio/gpio478/value
+		   echo SHUTDOWN COMMAND GOES HERE
+		   exit 0 #redundant - just here for testing
+		fi
+	fi
+}
+
+# https://wiki.odroid.com/odroid-c4/application_note/gpio/enhancement_gpio
+echo 477 > /sys/class/gpio/export 
+echo 478 > /sys/class/gpio/export
+
+# this pin (GPIO.1, pin 18) defaults to input with pullup but set direction for safety anyway
+echo in > /sys/class/gpio/gpio477/direction
+
+# this pin (GPIO.2, pin 22) will have an LED on it
+echo out > /sys/class/gpio/gpio478/direction
+
+while true; do check; sleep 1; done 
+	
