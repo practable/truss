@@ -24,6 +24,8 @@
 //"zeroing" on the UI is really just setting to zero position rather than performing the reset function - which is only really to be used for a hard reset on power
 // loss.
 
+// 06/10/22 Added the ability to place hardware back in original startup state -> allows updating of calibration data without power cycle.
+
 // IMPORT LIBRARIES
 #include "HX711.h"
 #include "LinearServo.h"
@@ -627,7 +629,18 @@ StateType readSerialJSON(StateType SmState){
     else if(strcmp(set, "cal")==0)
     {
      cal_set_values(doc);
-    } 
+    }
+    else if(strcmp(set, "state")==0){
+      
+       const char* new_state = doc["to"];
+       
+       if(strcmp(new_state, "STATE_STARTUP") == 0){
+          
+          SmState = STATE_STARTUP;
+       
+       }
+       
+    }
     
   }
       return SmState;     //return whatever state it changed to or maintain the state.
