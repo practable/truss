@@ -44,3 +44,26 @@ The PCB requires a 12V input and provides output voltages for different componen
 ![linear-actuator](img/linear_actuator.jpg)
 
 The [Actuonix L16](./hw/docs/Actuonix+L16+Datasheet.pdf) linear actuator uses the custom library LinearServo for setting its position. It has a 50mm stroke length, but is limited in this remote lab to a maximum of 20% extension (providing around 150N of load on the truss).
+
+## Re-calibration procedure
+
+If a strain gauge value no longer reads an acceptable result (within your experimental tolerance) then the scale factor needs to be updated in the firmware.
+
+- Note the value in micro-strain that the gauge is currently reading (current_value)
+- Note the current scale factor for that gauge (current_factor)
+- Calculate the value that you want it to read based on the load force (new_value)
+- new_factor = current_value*current_factor / new_value
+
+Using the debug UI (or any other means of sending a JSON command through Websocket to the experiment): send the new calibration data:
+
+```
+{"set":"cal","to":[2.0,2.1,2.2,2.3,2.4,2.5,2.6],"auth":"foo"}
+```
+
+Using the auth code that you set up initially.
+
+Then reset to the STARTUP state so that the firmware loads the new calibration data:
+
+```
+{"set":"state","to":"STATE_STARTUP"}
+```
