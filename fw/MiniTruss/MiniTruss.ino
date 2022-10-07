@@ -25,6 +25,7 @@
 // loss.
 
 // 06/10/22 Added the ability to place hardware back in original startup state -> allows updating of calibration data without power cycle.
+// 07/10/22 Increased the number of writes possible (from 3 to 10) to flash storage before requiring reloading firmware
 
 // IMPORT LIBRARIES
 #include "HX711.h"
@@ -121,7 +122,7 @@ unsigned long waitStartTime = 0;
 
 // SECURE CALIBRATION VARIABLES ============================
 
-#define FLASH_WRITES_MAX 3
+#define FLASH_WRITES_MAX 10
 #define SECRET_LEN_MAX 99
 #define SCALE_FACTOR_LEN 7
 
