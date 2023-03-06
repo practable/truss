@@ -23,7 +23,7 @@
 
     <toolbar parentCanvasID="" parentComponentName="load-control" parentDivID="load-control" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
         
-        <template v-slot:popup id='display-popup'>
+        <template v-slot:popup>
             <div class='row mb-2' id='help-div'>
           
               <h3> Commands </h3>

@@ -68,7 +68,7 @@ export default {
   },
   data(){
     return {
-      loadControlVersion: 1,    //0 => input field, 1=> slider, 2=>simulation of physical knob, 3 => direct commands typed, 4 => GamePad
+      loadControlVersion: 5,    //0 => input field, 1=> slider, 2=>simulation of physical knob, 3 => direct commands typed, 4 => GamePad, 5 => open day, simple buttons
       isSnapshotOn: true,
       isTheoreticalStrainsOn: false,
       isGraphOn: false,

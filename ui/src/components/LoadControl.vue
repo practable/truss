@@ -69,11 +69,34 @@
                 <game-pad @onchange='(value) => setPositionAndMove(value)' @reset='reset' @tare='tare' :disabled='getInputDisabled'/>
             </div>
 
+            <!-- Open day, simple buttons version -->
+            <div v-else-if='controlVersion == 5' class='col-sm-6'>
+                <div class="row">
+                    <div class="col-6">
+                        <h2 class="d-flex justify-content-center">{{ servo_input*100/servo_max }}%</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <img class='col-6' id='force-arrow-image' src='/images/force_arrow.png' alt='force-arrow-image'>
+                        <div class="col-4">
+                            <div class="d-flex flex-column align-items-center">
+                                <button type='button' class='button-primary button-xlg' @click='incrementMove(-1.5)' :disabled='getInputDisabled || servo_input == servo_min'> - </button>
+                                <button type='button' class='button-primary button-xlg' @click='incrementMove(1.5)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+
         </div>
 
         <toolbar parentCanvasID="" parentComponentName="control" parentDivID="load-control" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
         
-        <template v-slot:popup id='control-popup'>
+        <template v-slot:popup>
             <div class='row mb-2' id='control-div'>
                 <div class='col-12'>
                     <h3> Load control </h3>

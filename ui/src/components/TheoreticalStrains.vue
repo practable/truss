@@ -5,25 +5,25 @@
         
             <img id='truss-theory-image' src='../../public/images/theoretical-truss.png' alt='truss-theory-image'>
 
-            <div id='load-theory-cell'>{{getCurrent.load_cell}} N</div>
+            <div id='load-theory-cell'>{{getCurrent.load_cell.toFixed(0)}} N</div>
 
-            <div id='gauge-theory-1'>{{gaugeTheory_1.toFixed(1)}} &mu;&epsilon;</div>
+            <div id='gauge-theory-1'>{{gaugeTheory_1.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div id='gauge-theory-2'>{{gaugeTheory_2.toFixed(1)}} &mu;&epsilon;</div>
+            <div id='gauge-theory-2'>{{gaugeTheory_2.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div id='gauge-theory-3'>{{gaugeTheory_3.toFixed(1)}} &mu;&epsilon;</div>
+            <div id='gauge-theory-3'>{{gaugeTheory_3.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div id='gauge-theory-4'>{{gaugeTheory_4.toFixed(1)}} &mu;&epsilon;</div>
+            <div id='gauge-theory-4'>{{gaugeTheory_4.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div id='gauge-theory-5'>{{gaugeTheory_5.toFixed(1)}} &mu;&epsilon;</div>
+            <div id='gauge-theory-5'>{{gaugeTheory_5.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div id='gauge-theory-6'>{{gaugeTheory_6.toFixed(1)}} &mu;&epsilon;</div>
+            <div id='gauge-theory-6'>{{gaugeTheory_6.toFixed(0)}} &mu;&epsilon;</div>
 
       </div>
 
       <toolbar parentCanvasID="" parentComponentName="display-theory" parentDivID="overlay-theory" :showDownload='true' :showPopupHelp="true" :showOptions="false">  
         
-        <template v-slot:popup id='display-theory-popup'>
+        <template v-slot:popup>
             <div class='row mb-2' id='help-div'>
           
               <h3> Theoretical values display </h3>

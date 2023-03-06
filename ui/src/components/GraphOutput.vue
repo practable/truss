@@ -61,7 +61,7 @@
             <div v-if="currentFunction === 'linear'">
                
                 <div class='row justify-content-center'>
-                    <img id='linear_function' src='../../public/images/LinearFunction.png'>
+                    <img id='linear_function' src='/images/LinearFunction.png'>
                 </div>
 
 
@@ -87,7 +87,7 @@
                 <div v-else-if="currentFunction === 'quadratic'">
 
                     <div class='row justify-content-center'>
-                    <img id='linear_function' src='../../public/images/QuadraticFunction.png'>
+                    <img id='linear_function' src='/images/QuadraticFunction.png'>
                 </div>
 
 
@@ -112,7 +112,7 @@
             <div v-else-if="currentFunction === 'trigonometric'">
 
                 <div class='row justify-content-center'>
-                    <img id='trig_function' src='../../public/images/TrigFunction.png'>
+                    <img id='trig_function' src='/images/TrigFunction.png'>
                 </div>
 
 
@@ -141,7 +141,7 @@
             <div v-else-if="currentFunction === 'exponential'">
 
                  <div class='row justify-content-center'>
-                    <img id='linear_function' src='../../public/images/ExpFunction.png'>
+                    <img id='linear_function' src='/images/ExpFunction.png'>
                 </div>
 
 
@@ -170,7 +170,7 @@
 
     <toolbar parentCanvasID="graph-canvas" parentComponentName="graph" parentDivID="graph" :showDownload='true' :showPopupHelp="true" :showOptions="false">  
         
-        <template v-slot:popup id='graph-popup'>
+        <template v-slot:popup>
             <div class='row mb-2' id='intro-div'>
                 <div class='col-12'>
                     <h3> Adding data </h3>
@@ -180,7 +180,7 @@
 
             <div class='row mb-2' id='gradient-div'>
                 <div class='col-4'>
-                    <img class='popup-image' src='../../public/images/gradient.png'>
+                    <img class='popup-image' src='/images/gradient.png'>
                 </div>
                 <div class='col-8'>
                     <h3> Gradient tool </h3>
@@ -190,7 +190,7 @@
 
             <div class='row mb-2' id='data-point-div'>
                 <div class='col-4'>
-                    <img class='popup-image' src='../../public/images/GraphDataPoint.png'>
+                    <img class='popup-image' src='/images/GraphDataPoint.png'>
                 </div>
                 <div class='col-8'>
                     <h3> Interactive data points </h3>
@@ -202,7 +202,7 @@
 
             <div class='row mb-2' id='functions-div'>
                 <div class='col-4'>
-                    <img class='popup-image' src='../../public/images/function-plotting.png'>
+                    <img class='popup-image' src='/images/function-plotting.png'>
                 </div>
                 <div class='col-8'>
                     <h3> Function Plotting </h3>

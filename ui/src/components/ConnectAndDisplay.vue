@@ -6,21 +6,21 @@
     </div>
 
       <div v-else class='col-sm-12' id='overlay'>
-            <img id='truss-image' src='/images/truss-mini-image.png' alt='truss-image'>
+            <img id='truss-image' src='/images/truss-mini-image-labels.png' alt='truss-image'>
 
-            <div :class="[{highlighted: (highlighted_index.includes(0))}, {unhighlighted: (!highlighted_index.includes(0))}, 'pt-2']" id='load-cell' :hidden='!getShowForce'>{{getCurrent.load_cell}} N</div>
+            <div :class="[{highlighted: (highlighted_index.includes(0))}, {unhighlighted: (!highlighted_index.includes(0))}, 'pt-2']" id='load-cell' :hidden='!getShowForce'>{{getCurrent.load_cell.toFixed(0)}} N</div>
 
-            <div :class="[{highlighted: (highlighted_index.includes(1))}, {unhighlighted: (!highlighted_index.includes(1))}, 'pt-2']" id='gauge-1'>{{getCurrent.gauge_1}} &mu;&epsilon;</div>
+            <div :class="[{highlighted: (highlighted_index.includes(1))}, {unhighlighted: (!highlighted_index.includes(1))}, 'pt-2']" id='gauge-1'>{{getCurrent.gauge_1.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div :class="[{highlighted: (highlighted_index.includes(2))}, {unhighlighted: (!highlighted_index.includes(2))}, 'pt-2']" id='gauge-2'>{{getCurrent.gauge_2}} &mu;&epsilon;</div>
+            <div :class="[{highlighted: (highlighted_index.includes(2))}, {unhighlighted: (!highlighted_index.includes(2))}, 'pt-2']" id='gauge-2'>{{getCurrent.gauge_2.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div :class="[{highlighted: (highlighted_index.includes(3))}, {unhighlighted: (!highlighted_index.includes(3))}, 'pt-2']" id='gauge-3'>{{getCurrent.gauge_3}} &mu;&epsilon;</div>
+            <div :class="[{highlighted: (highlighted_index.includes(3))}, {unhighlighted: (!highlighted_index.includes(3))}, 'pt-2']" id='gauge-3'>{{getCurrent.gauge_3.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div :class="[{highlighted: (highlighted_index.includes(4))}, {unhighlighted: (!highlighted_index.includes(4))}, 'pt-2']" id='gauge-4'>{{getCurrent.gauge_4}} &mu;&epsilon;</div>
+            <div :class="[{highlighted: (highlighted_index.includes(4))}, {unhighlighted: (!highlighted_index.includes(4))}, 'pt-2']" id='gauge-4'>{{getCurrent.gauge_4.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div :class="[{highlighted: (highlighted_index.includes(5))}, {unhighlighted: (!highlighted_index.includes(5))}, 'pt-2']" id='gauge-5'>{{getCurrent.gauge_5}} &mu;&epsilon;</div>
+            <div :class="[{highlighted: (highlighted_index.includes(5))}, {unhighlighted: (!highlighted_index.includes(5))}, 'pt-2']" id='gauge-5'>{{getCurrent.gauge_5.toFixed(0)}} &mu;&epsilon;</div>
 
-            <div :class="[{highlighted: (highlighted_index.includes(6))}, {unhighlighted: (!highlighted_index.includes(6))}, 'pt-2']" id='gauge-6'>{{getCurrent.gauge_6}} &mu;&epsilon;</div>
+            <div :class="[{highlighted: (highlighted_index.includes(6))}, {unhighlighted: (!highlighted_index.includes(6))}, 'pt-2']" id='gauge-6'>{{getCurrent.gauge_6.toFixed(0)}} &mu;&epsilon;</div>
       </div>
 
     <toolbar parentCanvasID="" parentComponentName="display" parentDivID="overlay" :showDownload='true' :showPopupHelp="true" :showOptions="false">  

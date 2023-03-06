@@ -8,7 +8,7 @@ const dataStore = {
          sm_state: 0,      //the statemachine state of the firmware: STATE_STANDBY = 0, STATE_READ = 1, STATE_MOVE = 2, STATE_ZERO = 3, STATE_TARE = 4, STATE_GAUGE_RESET = 5 
          initial_position: 0,      //the initial position of the stepper motor
          x_axis_variable: 'gauge_1',
-         y_axis_variable: 'gauge_2', 
+         y_axis_variable: 'load_cell', 
        }),
        mutations:{
          SET_CURRENT(state, data){
