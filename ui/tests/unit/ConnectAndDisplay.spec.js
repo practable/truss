@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { describe, expect, test, mount } from 'vitest'
 import { createStore } from 'vuex';
 import ConnectAndDisplay from '../../src/components/ConnectAndDisplay.vue';
 import dataStore from '../../src/modules/dataStore.js'

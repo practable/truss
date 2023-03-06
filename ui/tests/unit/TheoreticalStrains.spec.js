@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { describe, expect, test, mount } from 'vitest'
 import { createStore } from 'vuex';
 import TheoreticalStrains from '../../src/components/TheoreticalStrains.vue';
 

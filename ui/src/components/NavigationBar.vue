@@ -4,7 +4,7 @@
 
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark background-primary">
     <div class="container-fluid">
-        <img src="../../public/images/practable-icon.png" width="30" height="30" alt="">
+        <img src="/images/practable-icon.png" width="30" height="30" alt="">
       <a class="navbar-brand" href="#">Remote Lab: {{labName}}</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

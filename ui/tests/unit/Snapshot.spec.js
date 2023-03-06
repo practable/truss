@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { describe, expect, test, mount } from 'vitest'
 import Snapshot from '../../src/components/Snapshot.vue';
 import { createStore } from 'vuex';
 
