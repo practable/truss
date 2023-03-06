@@ -1,4 +1,5 @@
-import { mount } from '@vue/test-utils'
+import { describe, expect, test } from 'vitest'
+import {mount} from "@vue/test-utils";
 import NavigationBar from '../../src/components/NavigationBar.vue';
 import { createStore } from 'vuex';
 import uiStore from '../../src/modules/uiStore.js'
