@@ -53,7 +53,7 @@
 
           <div class='d-flex'>
             <toolbar class='me-5' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
-                  <template v-slot:popup id='navbar-popup'>
+                  <template v-slot:popup>
                     <div class='row'>
                       <div class='col-6'>
                         <h2> Layout </h2>

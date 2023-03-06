@@ -25,7 +25,7 @@
 
     <toolbar parentCanvasID="" parentComponentName="display" parentDivID="overlay" :showDownload='true' :showPopupHelp="true" :showOptions="false">  
         
-        <template v-slot:popup id='display-popup'>
+        <template v-slot:popup>
             <div class='row mb-2' id='help-div'>
           
               <h3> Strain gauge Display </h3>

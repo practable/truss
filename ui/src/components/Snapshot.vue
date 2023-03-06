@@ -35,7 +35,7 @@
     </div>
     
      <toolbar parentCanvasID="" parentComponentName="snapshot" parentDivID="motor-snapshot-div" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
-        <template v-slot:popup id='snapshot-popup'>
+        <template v-slot:popup>
             <div class='row mb-2'>
                 <div class='col'>
                     <h3> Snapshot tool </h3>
