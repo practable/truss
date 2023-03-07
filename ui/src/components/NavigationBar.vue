@@ -59,7 +59,7 @@
                         <h2> Layout </h2>
                         <p> The layout of the UI can be changed using the Layout dropdown menu. This changes the left and right screen column sizes.</p>
                         <p>Components can be swapped by dragging to new positions. Click and drag from near but within the dotted line of the component you want to move. Release 
-                          inside the white background of the dotted border that you want to move it to.</p>
+                          inside the dotted border of the grid space that you want to move it to.</p>
                       </div>
                       <div class='col-6'>
                         <h2>UI Control:</h2>

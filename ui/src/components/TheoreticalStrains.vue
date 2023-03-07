@@ -3,7 +3,7 @@
     <div class='container-fluid m-2 background-white border rounded'>
       <div class='col-sm-12' id='overlay-theory'>
         
-            <img id='truss-theory-image' src='../../public/images/theoretical-truss.png' alt='truss-theory-image'>
+            <img id='truss-theory-image' src='/images/theoretical-truss.png' alt='truss-theory-image'>
 
             <div id='load-theory-cell'>{{getCurrent.load_cell.toFixed(0)}} N</div>
 

@@ -10,11 +10,11 @@
                 </tr>
             </thead>
             <tr v-for="(row, index) in getHistory" :id="'history-' + index" :key="index">
-                <td v-for='key in Object.keys(row)' :key="key">{{key == 'load_cell' && !getShowForce ? '' : row[key]}}</td>
+                <td v-for='key in Object.keys(row)' :key="key">{{key == 'load_cell' && !getShowForce ? '' : row[key].toFixed(0)}}</td>
             </tr>
 
             <tr :class='getLiveClass' id="current-data" key="current-data">
-                <td v-for='key in Object.keys(getCurrent)' :key="key">{{key == 'load_cell' && !getShowForce ? '' : getCurrent[key]}}</td>
+                <td v-for='key in Object.keys(getCurrent)' :key="key">{{key == 'load_cell' && !getShowForce ? '' : getCurrent[key].toFixed(0)}}</td>
             </tr>
                    
 
