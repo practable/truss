@@ -22,6 +22,23 @@ User Interfaces have been designed with Vue3.js and built with Vite. There are c
 - [no-force](./ui/no-force/): force data is hidden for student calculation from strain data.
 - [open-day](./ui/open-day/): simplified control interface for demonstrations.
 
+## Changing control interface on UI
+
+The differences in the above UI versions amount to very simple changes in the Vue files. 
+
+The load force can be controlled with either a slider or simple buttons (as well experimental versions of a skeuomorphic display and gamepad control). Simply update the `loadControlVersion` parameter in `App.vue`.
+
+```
+loadControlVersion: 1,    //0 => input field, 1=> slider, 2=>simulation of physical knob, 3 => direct commands typed, 4 => GamePad, 5 => open day, simple buttons
+```
+
+To change whether the load force is displayed or the theoretical strains are available, update the boolean parameters in `src/modules/uiStore.js`:
+
+```
+show_force: false,       //should force values be displayed on the UI
+show_theory: false,      //should the theoretical values component be available on the UI
+```
+
 ## Firmware
 
 The truss remote lab has been designed around the Arduino Nano 33 IoT. The firmware uses a state machine with 11 states, including reading, writing, taring and resetting strain gauges and moving the linear actuator. A single microcontroller performs both reading and writing of data. The state machine will remain in the READ state until a user command to change state. Upon performing that state the state machine will return to READ. The required libraries are included [here](./fw/libraries/). 
