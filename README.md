@@ -1,18 +1,26 @@
 # truss
 
-This remote lab is still in ACTIVE DEVELOPMENT. 
+## Introduction
+
+The truss remote laboratory has been designed for use with Structural Engineering and Engineering Design courses at the University of Edinburgh. The truss consists of 6 members, each with a full-bridge strain gauge arrangement using two biaxial strain gauges ([Kyowa KFGS-2-120-D16-11](./hw/docs/)). Strain gauge voltages are converted to digital signals using the [HX711 ADC](./hw/docs/) and this [HX711 library](https://www.arduino.cc/reference/en/libraries/hx711-arduino-library/) is used to read and tare the gauges. The truss is loaded using a [linear servo](./hw/docs/). 
 
 ![truss](img/truss.png)
 
 ## Contents
 
-- Firmware `./fw`
-- Hardware `./hw`
-- UI `./ui`
+- [Firmware ./fw](./fw/)
+- [Hardware ./hw](./hw/)
+- [SBC ./sbc](./sbc/)
+- [UI ./ui](./ui/)
 
-## Introduction
 
-The truss remote laboratory has been designed for use with Structural Engineering and Engineering Design courses at the University of Edinburgh. The truss consists of 6 members, each with a full-bridge strain gauge arrangement using two biaxial strain gauges ([Kyowa KFGS-2-120-D16-11](./hw/docs/)). Strain gauge voltages are converted to digital signals using the [HX711 ADC](./hw/docs/) and this [HX711 library](https://www.arduino.cc/reference/en/libraries/hx711-arduino-library/) is used to read and tare the gauges. The truss is loaded using a [linear servo](./hw/docs/). 
+## UI
+
+User Interfaces have been designed with Vue3.js and built with Vite. There are currently three distinct versions of the UI ready to build:
+
+- [default](./ui/default/): all data and components available on the user interface.
+- [no-force](./ui/no-force/): force data is hidden for student calculation from strain data.
+- [open-day](./ui/open-day/): simplified control interface for demonstrations.
 
 ## Firmware
 
