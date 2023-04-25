@@ -2,7 +2,7 @@
 
 This remote lab is still in ACTIVE DEVELOPMENT. 
 
-![truss](img/truss.jpg)
+![truss](img/truss.png)
 
 ## Contents
 
