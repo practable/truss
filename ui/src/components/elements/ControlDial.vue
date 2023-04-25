@@ -1,14 +1,14 @@
 
 <template>
   <div class='row' id='control-dial-div'>
-      <img id='dial-image' src='../../../public/images/control-dial-real.png' hidden>
-      <img id='dial-background-image' src='../../../public/images/control-dial-background-real.png' hidden>
+      <img id='dial-image' src='/images/control-dial-real.png' hidden>
+      <img id='dial-background-image' src='/images/control-dial-background-real.png' hidden>
 
       <input class='form-control text-center' type='text' id='dial-output' :value='motor_position.toFixed(2)' readonly>
       <canvas class='col-12' id='control-dial-canvas' @mousedown='(event) => {toggleClicked(event); setDraggable(false)}' @mouseleave='(event) => {if(clicked){toggleClicked(event); setDraggable(true);}}' @mouseup="(event) => {toggleClicked(event); setDraggable(true); sendValue();}" @mousemove="rotateDial" 
               @touchstart='(event) => {toggleClicked(event); setDraggable(false)}' @touchend="(event) => {toggleClicked(event); setDraggable(true); sendValue();}" @touchcancel='(event) => {if(clicked){toggleClicked(event); setDraggable(true);}}' @touchmove="rotateDial"></canvas>
       <audio id='click-sound'>
-        <source src='../../../public/audio/click.wav' type="audio/mpeg" preload='auto' />
+        <source src='/audio/click.wav' type="audio/mpeg" preload='auto' />
           <!-- <source src='../../../public/audio/click2.mp3' type="audio/mpeg" preload='auto' /> -->
       </audio>
   </div>
