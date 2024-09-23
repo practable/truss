@@ -77,7 +77,7 @@ export default {
             this.error_text = '';
 
             if(this.checkValidCommand(this.command_text)){
-                console.log(this.command_text);
+                //console.log(this.command_text);
                 this.getDataSocket.send(this.command_text);
             } else{
                 console.log('Invalid command');

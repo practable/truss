@@ -413,7 +413,7 @@ export default {
         },
         getDataAtIndex(index){
             if(index >= 0 && index < this.getNumData){
-                console.log('getting data at: ' + index);
+                //console.log('getting data at: ' + index);
                 let x_data = this.getXDataAll[index];
                 let y_data = this.getYDataAll[index];
             

@@ -100,7 +100,7 @@ export default {
         
         this.dataSocket.onopen = () => {
             //console.log(this.$store.getters.getDataSocket);
-            console.log('data connection opened');
+            //console.log('data connection opened');
             _this.$store.dispatch('reset');       //CAN CHOOSE WHETHER TO RESET ON CONNECTION -> REFRESH ETC
         };
 
@@ -108,7 +108,7 @@ export default {
             try {
                 let data = JSON.parse(event.data);      //currently sent as {"load_cell": 45.6, "gauge_1":56.8......, "state": 0, "pos": 2000}
                 this.$store.dispatch('setSmState', data.state);
-                console.log(event.data);
+                //console.log(event.data);
 
                 //what is done with the data depends on the state
                 //STATE_READ state
@@ -136,7 +136,7 @@ export default {
                 }
                 else{
                   this.highlighted_index = [];  //don't highlight any of the gauge values
-                  console.log('no change');
+                  //console.log('no change');
                 }
                 
             } catch (e) {

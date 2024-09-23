@@ -69,7 +69,7 @@ export default {
     },
 		urlOK(is) {
 			if (is) {
-				console.log("get videoURL", this.urlOK, this.url);
+				console.log("get videoURL", this.urlOK);
 			} 
 		},
 
