@@ -62,6 +62,9 @@ const uiStore = {
          },
          getHardLimit(state){
             return state.hard_limit;
+         },
+         getAppVersion(state){
+            return import.meta.env.VITE_APP_VERSION;
          }
           
          

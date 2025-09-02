@@ -1,8 +1,8 @@
 # truss-ui
 
-This version is designed for the Structural Mechanics 2 course, in the School of Engineering at the University of Edinburgh.
+This user interface is derived from the [default](../default/) UI. This version is designed for the Structural Mechanics 2 course, in the School of Engineering at the University of Edinburgh. It does not display the load force nor allow you to tare the load cell. It also does not display theoretical strains. 
 
-This version of the UI has many of the same features as the `default` UI, except it does not display the load force nor allow you to tare the load cell. It also does not display theoretical strains. 
+Logging of interactions is included in this version of the user interface and is enabled by default.
 
 ## Project setup
 ```

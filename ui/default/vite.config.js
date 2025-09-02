@@ -1,15 +1,20 @@
-import { fileURLToPath, URL } from 'node:url'
+import { defineConfig, loadEnv } from "vite";
+import vue from "@vitejs/plugin-vue";
+import path from "path";
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [vue()],
-  base: '/ui/truss-1.0/',
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
-})
+export default ({ mode }) => {
+  process.env = Object.assign(process.env, loadEnv(mode, process.cwd(), ""));
+  return defineConfig({
+    base: process.env.VITE_BASE,
+    plugins: [vue()],
+    define: {
+      // enable hydration mismatch details in production build
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+    },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
+  });
+};

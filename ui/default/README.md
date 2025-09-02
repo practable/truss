@@ -2,6 +2,8 @@
 
 This is the default UI that contains all features currently available for the truss remote lab. All data is available on the UI, including the load force. Control of the load force is via a slider and the theoretical strains are available as a separate component in the UI Menu.
 
+Logging of interactions is not included in this version of the user interface.
+
 ## Project setup
 ```
 npm install

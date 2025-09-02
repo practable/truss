@@ -198,8 +198,6 @@ export default {
     },
     watch:{
         getInitialPosition(value){
-            console.log('servo position=');
-            console.log(value);
             this.servo_input = value;
         }
     },
@@ -213,7 +211,6 @@ export default {
             this.message = mes;
         },
         setPositionAndMove(input){
-            console.log('sending to servo = ' + input);
             this.$store.dispatch('setPositionAndMove', input);
         },
         incrementMove(delta){

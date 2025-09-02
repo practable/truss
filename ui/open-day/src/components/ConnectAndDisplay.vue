@@ -108,7 +108,6 @@ export default {
             try {
                 let data = JSON.parse(event.data);      //currently sent as {"load_cell": 45.6, "gauge_1":56.8......, "state": 0, "pos": 2000}
                 this.$store.dispatch('setSmState', data.state);
-                console.log(event.data);
 
                 //what is done with the data depends on the state
                 //STATE_READ state

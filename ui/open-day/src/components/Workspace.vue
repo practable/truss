@@ -142,7 +142,6 @@ export default {
                     this.rotateMode = !this.rotateMode;
                 } 
                 else if(event.key == "w" && event.type == 'keydown'){
-                    console.log(event);
                     this.workspace_canvas_clickable = !this.workspace_canvas_clickable;
                 }
             }
