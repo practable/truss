@@ -1,11 +1,11 @@
 <template>
-  <div class='container-fluid m-2 background-white border rounded'>
+  <div class='container-fluid practable-component'>
 
     <div v-if='getSessionExpired' class='col-12'>
-        <img id='session-end-image' src='https://assets.practable.io/images/common/thank-you-screen.svg' alt='session ended'>
+        <img id='session-end-image' src='https://app.practable.io/ed0/static/images/common/thank-you-screen.svg' alt='session ended'>
     </div>
 
-      <div v-else class='col-sm-12' id='overlay'>
+      <div v-else class='col-sm-12 mb-2' id='overlay'>
             <img id='truss-image' src='/images/truss-mini-image-labels-force-arrow.png' alt='truss-image'>
 
             <div :class="[{highlighted: (highlighted_index.includes(0))}, {unhighlighted: (!highlighted_index.includes(0))}, 'pt-2']" id='load-cell' :hidden='!getShowForce'>{{getCurrent.load_cell.toFixed(0)}} N</div>

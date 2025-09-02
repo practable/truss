@@ -1,6 +1,6 @@
 
 <template>
-<div class='container-fluid m-2 background-white border rounded'>
+<div class='container-fluid practable-component'>
     <div class="row m-0 justify-content-center" id="chart-canvas">
         <div class="col-12">
             <canvas id='graph-canvas' @mousedown="startLine" @mouseup="endDrag" @mousemove="endLine"></canvas>
@@ -12,39 +12,39 @@
         <div class='col-sm-6 flex-column'>
             <div class='row'>
                 <div class='col-sm-6 dropdown'>
-                    <button type="button" class="button-sm button-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button id='graph-y-axis-select' type="button" class="button-sm button-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Y Axis
                     </button>
                     <ul class="dropdown-menu">
-                        <li v-if='getShowForce'><a class="dropdown-item" @click='() => changeYAxis("load_cell")'>Load Cell</a></li>
-                        <li><a class="dropdown-item" @click='() => changeYAxis("gauge_1")'>Member 1</a></li>
-                        <li><a class="dropdown-item" @click='() => changeYAxis("gauge_2")'>Member 2</a></li>
-                        <li><a class="dropdown-item" @click='() => changeYAxis("gauge_3")'>Member 3</a></li>
-                        <li><a class="dropdown-item" @click='() => changeYAxis("gauge_4")'>Member 4</a></li>
-                        <li><a class="dropdown-item" @click='() => changeYAxis("gauge_5")'>Member 5</a></li>
-                        <li><a class="dropdown-item" @click='() => changeYAxis("gauge_6")'>Member 6</a></li>
+                        <li v-if='getShowForce'><a id='graph-y-axis-select-load-cell' class="dropdown-item" @click='() => changeYAxis("load_cell")'>Load Cell</a></li>
+                        <li><a id='graph-y-axis-select-gauge-one' class="dropdown-item" @click='() => changeYAxis("gauge_1")'>Member 1</a></li>
+                        <li><a id='graph-y-axis-select-gauge-two' class="dropdown-item" @click='() => changeYAxis("gauge_2")'>Member 2</a></li>
+                        <li><a id='graph-y-axis-select-gauge-three' class="dropdown-item" @click='() => changeYAxis("gauge_3")'>Member 3</a></li>
+                        <li><a id='graph-y-axis-select-gauge-four' class="dropdown-item" @click='() => changeYAxis("gauge_4")'>Member 4</a></li>
+                        <li><a id='graph-y-axis-select-gauge-five' class="dropdown-item" @click='() => changeYAxis("gauge_5")'>Member 5</a></li>
+                        <li><a id='graph-y-axis-select-gauge-six' class="dropdown-item" @click='() => changeYAxis("gauge_6")'>Member 6</a></li>
                     </ul>
                 </div>
 
                 <div class='col-sm-6 dropdown'>
-                    <button type="button" class="button-sm button-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button id='graph-x-axis-select' type="button" class="button-sm button-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         X Axis
                     </button>
                     <ul class="dropdown-menu">
-                        <li v-if='getShowForce'><a class="dropdown-item" @click='() => changeXAxis("load_cell")'>Load Cell</a></li>
-                        <li><a class="dropdown-item" @click='() => changeXAxis("gauge_1")'>Member 1</a></li>
-                        <li><a class="dropdown-item" @click='() => changeXAxis("gauge_2")'>Member 2</a></li>
-                        <li><a class="dropdown-item" @click='() => changeXAxis("gauge_3")'>Member 3</a></li>
-                        <li><a class="dropdown-item" @click='() => changeXAxis("gauge_4")'>Member 4</a></li>
-                        <li><a class="dropdown-item" @click='() => changeXAxis("gauge_5")'>Member 5</a></li>
-                        <li><a class="dropdown-item" @click='() => changeXAxis("gauge_6")'>Member 6</a></li>
+                        <li v-if='getShowForce'><a id='graph-x-axis-select-load-cell' class="dropdown-item" @click='() => changeXAxis("load_cell")'>Load Cell</a></li>
+                        <li><a id='graph-x-axis-select-gauge-one' class="dropdown-item" @click='() => changeXAxis("gauge_1")'>Member 1</a></li>
+                        <li><a id='graph-x-axis-select-gauge-two' class="dropdown-item" @click='() => changeXAxis("gauge_2")'>Member 2</a></li>
+                        <li><a id='graph-x-axis-select-gauge-three' class="dropdown-item" @click='() => changeXAxis("gauge_3")'>Member 3</a></li>
+                        <li><a id='graph-x-axis-select-gauge-four' class="dropdown-item" @click='() => changeXAxis("gauge_4")'>Member 4</a></li>
+                        <li><a id='graph-x-axis-select-gauge-five' class="dropdown-item" @click='() => changeXAxis("gauge_5")'>Member 5</a></li>
+                        <li><a id='graph-x-axis-select-gauge-six' class="dropdown-item" @click='() => changeXAxis("gauge_6")'>Member 6</a></li>
                     </ul>
                 </div>
             </div>
             
             <div>
                 <label class='txt-primary txt-bold m-2' for="gradient">Gradient:</label>
-                <input type='text' class='input' id="gradient" :value="gradient.toFixed(2)" readonly > 
+                <input id='graph-gradient-output' type='text' class='input' :value="gradient.toFixed(2)" readonly > 
             </div>
         </div>
        
@@ -52,10 +52,10 @@
         <div class='col-sm-6 flex-column'>
             <label class='txt-primary txt-bold m-2' for="graph">Plot function: </label>
             <select class='button-sm button-secondary col-sm-6' name="function" id="function" v-model="currentFunction">
-                <option value="linear">Linear</option>
-                <option value="quadratic">Quadratic</option>
-                <option value="trigonometric">Trigonometric</option>
-                <option value="exponential">Exponential</option>
+                <option id='function-linear' value="linear">Linear</option>
+                <option id='function-quadratic' value="quadratic">Quadratic</option>
+                <option id='function-trig' value="trigonometric">Trigonometric</option>
+                <option id='function-exp' value="exponential">Exponential</option>
             </select> 
 
             <div v-if="currentFunction === 'linear'">
@@ -413,6 +413,7 @@ export default {
         },
         getDataAtIndex(index){
             if(index >= 0 && index < this.getNumData){
+                console.log('getting data at: ' + index);
                 let x_data = this.getXDataAll[index];
                 let y_data = this.getYDataAll[index];
             

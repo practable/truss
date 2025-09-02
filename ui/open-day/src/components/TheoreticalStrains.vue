@@ -1,7 +1,7 @@
 <template>
         
-    <div class='container-fluid m-2 background-white border rounded'>
-      <div class='col-sm-12' id='overlay-theory'>
+    <div class='container-fluid practable-component'>
+      <div class='col-sm-12 mb-2' id='overlay-theory'>
         
             <img id='truss-theory-image' src='/images/theoretical-truss.png' alt='truss-theory-image'>
 

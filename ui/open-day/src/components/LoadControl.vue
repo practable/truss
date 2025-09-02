@@ -1,13 +1,13 @@
 //Controls stepper motor. Stepper between 0 and 20000 steps.
 
 <template>
-    <div class='container-fluid m-2 background-white border rounded' id='load-control'>
+    <div class='container-fluid practable-component' id='load-control'>
         <div class='d-grid gap-2 d-sm-block mb-2'>
             <!-- <button type='button' class='btn btn-sm btn-primary me-2' @click='read'>Start Reading</button>
             <button type='button' class='btn btn-sm btn-danger me-2' @click='standby'>Standby</button> -->
-            <button type='button' class='button-sm button-danger me-2' @click='reset' :disabled='getInputDisabled'>Reset</button>
-            <button type='button' class='button-sm button-secondary me-2' @click='tare' :disabled='getInputDisabled'>Tare</button>
-            <button type='button' class='button-sm button-secondary me-2' @click='tareLoad' :disabled='getInputDisabled' v-if='getShowForce'>Tare Load</button>
+            <button id="load-control-reset" type='button' class='button-sm button-danger me-2' @click='reset' :disabled='getInputDisabled'>Reset</button>
+            <button id="load-control-tare-gauges" type='button' class='button-sm button-secondary me-2' @click='tare' :disabled='getInputDisabled'>Tare</button>
+            <button id="load-control-tare-load-cell" type='button' class='button-sm button-secondary me-2' @click='tareLoad' :disabled='getInputDisabled' v-if='getShowForce'>Tare Load</button>
 
         </div>
 
@@ -40,17 +40,17 @@
                     <input class='input' type='text' id='load-output' :value='servo_input' readonly>
                 
                     <div class='row m-2'>
-                        <div class='col-4 mb-2'><button type='button' class='button-toolbar button-primary' @click='incrementMove(-10)' :disabled='getInputDisabled'>-</button></div>
+                        <div class='col-4 mb-2'><button id="load-decrement-10" type='button' class='button-toolbar button-primary' @click='incrementMove(-10)' :disabled='getInputDisabled'>-</button></div>
                         <div class='col-4 mb-2'><label type='label' class='col-form-label'>10</label></div>
-                        <div class='col-4 mb-2'><button type='button' class='button-toolbar button-primary' @click='incrementMove(10)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button></div>
+                        <div class='col-4 mb-2'><button id="load-increment-10" type='button' class='button-toolbar button-primary' @click='incrementMove(10)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button></div>
 
-                        <div class='col-4 mb-2'><button type='button' class='button-toolbar button-primary' @click='incrementMove(-5)' :disabled='getInputDisabled'>-</button></div>
+                        <div class='col-4 mb-2'><button id="load-decrement-5" type='button' class='button-toolbar button-primary' @click='incrementMove(-5)' :disabled='getInputDisabled'>-</button></div>
                         <div class='col-4 mb-2'><label class='col-form-label'>5</label></div>
-                        <div class='col-4 mb-2'><button type='button' class='button-toolbar button-primary' @click='incrementMove(5)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button></div>
+                        <div class='col-4 mb-2'><button id="load-increment-5" type='button' class='button-toolbar button-primary' @click='incrementMove(5)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button></div>
 
-                        <div class='col-4 mb-2'><button type='button' class='button-toolbar button-primary' @click='incrementMove(-1)' :disabled='getInputDisabled'>-</button></div>
+                        <div class='col-4 mb-2'><button id="load-decrement-1" type='button' class='button-toolbar button-primary' @click='incrementMove(-1)' :disabled='getInputDisabled'>-</button></div>
                         <div class='col-4 mb-2'><label class='col-form-label'>1</label></div>
-                        <div class='col-4 mb-2'><button type='button' class='button-toolbar button-primary' @click='incrementMove(1)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button></div>
+                        <div class='col-4 mb-2'><button id="load-increment-1" type='button' class='button-toolbar button-primary' @click='incrementMove(1)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button></div>
                     </div>
                    
                 
@@ -81,8 +81,8 @@
                         <img class='col-6' id='force-arrow-image' src='/images/force_arrow.png' alt='force-arrow-image'>
                         <div class="col-4">
                             <div class="d-flex flex-column align-items-center">
-                                <button type='button' class='button-primary button-xlg' @click='incrementMove(-1.5)' :disabled='getInputDisabled || servo_input == servo_min'> - </button>
-                                <button type='button' class='button-primary button-xlg' @click='incrementMove(1.5)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button>
+                                <button id="load-decrement-ten-percent" type='button' class='button-primary button-xlg' @click='incrementMove(-1.5)' :disabled='getInputDisabled || servo_input == servo_min'> &nbsp; - &nbsp; </button>
+                                <button id="load-increment-ten-percent" type='button' class='button-primary button-xlg' @click='incrementMove(1.5)' :disabled='getInputDisabled || servo_input >= servo_max'>&nbsp; + &nbsp;</button>
                             </div>
                             
                         </div>
@@ -198,6 +198,8 @@ export default {
     },
     watch:{
         getInitialPosition(value){
+            console.log('servo position=');
+            console.log(value);
             this.servo_input = value;
         }
     },
@@ -211,6 +213,7 @@ export default {
             this.message = mes;
         },
         setPositionAndMove(input){
+            console.log('sending to servo = ' + input);
             this.$store.dispatch('setPositionAndMove', input);
         },
         incrementMove(delta){

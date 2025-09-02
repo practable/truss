@@ -1,5 +1,5 @@
 <template>
-<div class='container-fluid m-2 background-white border rounded'>
+<div class='container-fluid practable-component'>
     <div id='load-control'>
         
         <div class='row'>
@@ -77,7 +77,7 @@ export default {
             this.error_text = '';
 
             if(this.checkValidCommand(this.command_text)){
-                // console.log(this.command_text);
+                console.log(this.command_text);
                 this.getDataSocket.send(this.command_text);
             } else{
                 console.log('Invalid command');

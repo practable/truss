@@ -6,7 +6,7 @@ import 'bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'es6-promise/auto'
 
-import '@/styles/app.css'
+import '@/styles/theme-new.css'
 
 const app = createApp(App)
 
