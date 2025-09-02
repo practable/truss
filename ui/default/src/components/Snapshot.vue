@@ -1,6 +1,6 @@
 
 <template>
-<div class="container-fluid m-2 background-white border rounded" id='snapshot'>
+<div class="container-fluid practable-component" id='snapshot'>
     <div class="row table" id='table' >
 
         <table>
@@ -128,9 +128,9 @@ export default {
             filename = 'TRUSS_SNAPSHOTS_' + date.getDate().toString() + (date.getMonth() + 1).toString() + date.getFullYear().toString();
           
             if(_this.getShowForce){
-                    csv = 'Load/N, Gauge 1/µε , Gauge 2/µε,Gauge 3/µε, Gauge 4/µε, Gauge 5/µε, Gauge 6/µε\n';
+                    csv = 'Load[N],Gauge 1[µε] ,Gauge 2[µε],Gauge 3[µε],Gauge 4[µε],Gauge 5[µε],Gauge 6[µε]\n';
                 } else{
-                    csv = 'Gauge 1/µε , Gauge 2/µε,Gauge 3/µε, Gauge 4/µε, Gauge 5/µε, Gauge 6/µε\n';
+                    csv = 'Gauge 1[µε],Gauge 2[µε],Gauge 3[µε],Gauge 4[µε],Gauge 5[µε],Gauge 6[µε]\n';
                 }
               
             this.getHistory.forEach(function(d){

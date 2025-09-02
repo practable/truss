@@ -2,19 +2,21 @@
 
 <template>
 
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark background-primary">
+  <nav class="navbar navbar-light fixed-top navbar-expand-lg navbar-background" id="navbar">
     <div class="container-fluid">
-        <img src="/images/practable-icon.png" width="30" height="30" alt="">
-      <a class="navbar-brand" href="#">Remote Lab: {{labName}}</a>
+      <div class="navbar-brand">
+        <img src="/images/practable-icon.png" width="30" height="30" alt="practable.io logo">
+        {{ labName }}
+      </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto">
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                   Menu
+                   Add Component
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#" @click='toggleComponent("snapshot")'>Data Snapshot</a></li>
@@ -24,7 +26,7 @@
               </li>
 
               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle" href="#" id="toolsdropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                    Tools
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
@@ -37,7 +39,7 @@
                   <a class="nav-link" href="#" tabindex="-1" @click='clearWorkspace'>Clear Workspace</a>
               </li>
 
-              <li class="nav-item dropdown">
+              <!-- <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                    Layout
                   </a>
@@ -47,11 +49,19 @@
                     <li><a class="dropdown-item" href="#" @click='toggleLayout(0.5)'>50%:50%</a></li>
                     <li><a class="dropdown-item" href="#" @click='toggleLayout(0.75)'>75%:25%</a></li>
                   </ul>
+              </li> -->
+
+              <li class="nav-item">
+                  <div class="nav-link">UUID: {{ getLogUUID }}</div>
               </li>
-              
           </ul>
 
-          <div class='d-flex'>
+          <ul class="navbar-nav dropstart">
+
+            <li class="nav-item">
+                <clock class='nav-link' />
+            </li>
+
             <toolbar class='me-5' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
                   <template v-slot:popup>
                     <div class='row'>
@@ -77,12 +87,7 @@
                     </div>
                   </template>
             </toolbar>
-          </div>
-
-
-          <div class='d-flex'>
-              <clock />
-          </div>
+          </ul>
 
       </div>
     </div>
@@ -107,7 +112,7 @@ export default {
       
   },
   emits:[
-    'togglegraph', 'togglesnapshot', 'toggleworkspace', 'clearworkspace', 'addruler', 'addprotractor', 'toggletheoreticalstrains', 'togglelayout'
+    'togglegraph', 'togglesnapshot', 'toggleworkspace', 'clearworkspace', 'addruler', 'addprotractor', 'toggletheoreticalstrains'
   ],
   data () {
     return {
@@ -118,7 +123,8 @@ export default {
     ...mapGetters([
       'getShowTheory',
       'getShowForce',
-      'getAppVersion'
+      'getAppVersion',
+      'getLogUUID'
     ]),
       labName(){
         return 'Truss Lab';
@@ -135,29 +141,34 @@ export default {
       clearWorkspace(){
           this.$emit('clearworkspace');
       },
-      toggleLayout(ratio){
-        if(ratio == 0.25)
-        {
-          this.$emit('togglelayout', 0.25);
-        }
-        else if(ratio == 0.5)
-        {
-          this.$emit('togglelayout', 0.5);
-        }
-        else if(ratio == 0.75)
-        {
-          this.$emit('togglelayout', 0.75);
-        }
-        else 
-        {
-          this.$emit('togglelayout', 1);
-        }
-      }
+      // toggleLayout(ratio){
+      //   if(ratio == 0.25)
+      //   {
+      //     this.$emit('togglelayout', 0.25);
+      //   }
+      //   else if(ratio == 0.5)
+      //   {
+      //     this.$emit('togglelayout', 0.5);
+      //   }
+      //   else if(ratio == 0.75)
+      //   {
+      //     this.$emit('togglelayout', 0.75);
+      //   }
+      //   else 
+      //   {
+      //     this.$emit('togglelayout', 1);
+      //   }
+      // }
   }
 }
 </script>
 
 <style scoped>
-
+.dropdown-checked::before{
+  position: absolute;
+  left: .2rem;
+  content: '✓';
+  font-weight: 600;
+}
 
 </style>

@@ -91,7 +91,6 @@ export default {
 <style scoped>
 #sessionTime{
     font-style: italic;
-    color: white;
 }
 
 </style>

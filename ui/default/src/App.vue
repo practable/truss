@@ -1,6 +1,6 @@
 <template>
-  <div id="app" class='container-fluid-sm m-0 background-grey'>
-    <navigation-bar @togglelayout="toggleLayout" @togglegraph="togglegraph" @togglesnapshot="toggleSnapshot" @toggletheoreticalstrains="toggleTheoreticalStrains" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"
+  <div id="app" class='container-fluid-sm m-0'>
+    <navigation-bar @togglegraph="togglegraph" @togglesnapshot="toggleSnapshot" @toggletheoreticalstrains="toggleTheoreticalStrains" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"
     />
 
     <div v-if="isWorkspaceOn">
@@ -9,30 +9,36 @@
 
   <streams id='streams' />
 
-  <!-- <consent /> -->
-  <!-- <watcher /> -->
+  <div v-if='!isMobile' class='row' id='component-grid'>
 
-     <div class='row' id='component-grid'>
-
-          <div :class='leftClass' id='left-screen'>
-            <div class='col drop-area' id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><data-stream id='data-stream' /></div>
-            <div class='col drop-area' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><snapshot v-if='isSnapshotOn' id='snapshot' :headings="[getLoadHeading, 'Gauge 1/ &mu;&epsilon;', 'Gauge 2/ &mu;&epsilon;', 'Gauge 3/ &mu;&epsilon;', 'Gauge 4/ &mu;&epsilon;', 'Gauge 5/ &mu;&epsilon;', 'Gauge 6/ &mu;&epsilon;' ]"/></div>
-            <div class='col drop-area' id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><graph-output v-if='isGraphOn' id='graph' /></div>
-            <div class='col drop-area' id='drop_3_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent></div>
-            <div class='col drop-area' id='drop_4_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent></div>
-          </div>
-
-          <div :class='rightClass' id='right-screen'>
-            <div v-if='loadControlVersion == 3' class='col drop-area' id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><load-control-code id='load-control-code' /></div>
-            <div v-else class='col drop-area' id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><load-control id='load-control' :controlVersion="loadControlVersion"/></div>
-
-            <div class='col drop-area' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><theoretical-strains id='theoretical-strains' v-if='isTheoreticalStrainsOn && getShowTheory' /></div>
-            <div class='col drop-area' id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent></div>
-            <div class='col drop-area' id='drop_3_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent></div>
-            <div class='col drop-area' id='drop_4_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent></div>
-          </div>
-
+      <div class='d-flex' id='first-row'>
+          <div class='drop-area drop-area-two-fifths' id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
+          <div v-if='loadControlVersion == 3' class='drop-area drop-area-three-fifths' id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><load-control-code id='load-control-code' /></div>
+          <div v-else class='drop-area drop-area-three-fifths' id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><load-control id='load-control' :controlVersion="loadControlVersion"/></div>
       </div>
+
+      <div class='d-flex' id='second-row'>
+        <div class='drop-area drop-area-full' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="[getLoadHeading, 'Gauge 1 [&mu;&epsilon;]', 'Gauge 2 [&mu;&epsilon;]', 'Gauge 3 [&mu;&epsilon;]', 'Gauge 4 [&mu;&epsilon;]', 'Gauge 5 [&mu;&epsilon;]', 'Gauge 6 [&mu;&epsilon;]' ]"/></div>
+        <!-- <div class='drop-area drop-area-half' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div> -->
+      </div>
+
+      <div class='d-flex' id='third-row'>
+        <div class='drop-area drop-area-half' id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><graph-output v-if='isGraphOn' id='graph' /></div>
+        <div class='drop-area drop-area-half' id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><theoretical-strains id='theoretical-strains' v-if='isTheoreticalStrainsOn && getShowTheory' /></div>
+      </div>
+
+  </div>
+
+  <div v-else class='d-flex flex-column' id='component-grid'>
+      <div class='drop-area drop-area-mobile' id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
+      <div class='drop-area drop-area-mobile' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><load-control id='load-control' :controlVersion="loadControlVersion"/></div>
+      <div class='drop-area drop-area-mobile' id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="[getLoadHeading, 'Gauge 1 [&mu;&epsilon;]', 'Gauge 2 [&mu;&epsilon;]', 'Gauge 3 [&mu;&epsilon;]', 'Gauge 4 [&mu;&epsilon;]', 'Gauge 5 [&mu;&epsilon;]', 'Gauge 6 [&mu;&epsilon;]' ]"/></div>
+      <div class='drop-area drop-area-mobile' id='drop_3_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><theoretical-strains id='theoretical-strains' v-if='isTheoreticalStrainsOn && getShowTheory' /></div>
+      <div class='drop-area drop-area-mobile' id='drop_4_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><graph-output v-if='isGraphOn' id='graph' /></div>
+      <div class='drop-area drop-area-mobile' id='drop_5_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
+      <div class='drop-area drop-area-mobile' id='drop_6_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
+      <div class='drop-area drop-area-mobile' id='drop_7_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
+  </div>
 
   
   </div>
@@ -75,21 +81,33 @@ export default {
       isWorkspaceOn: false,
       rulerAdded: false,
       protractorAdded: false,
-      leftClass: 'col-lg-6',
-      rightClass: 'col-lg-6' 
+      // leftClass: 'col-lg-6',
+      // rightClass: 'col-lg-6' 
     }
+  },
+  created(){
+    this.$store.dispatch('setUsesLocalStorage', this.hasStorage());
+    this.updateUUID();
   },
   computed:{
     ...mapGetters([
       'getDraggable',
       'getShowTheory',
-      'getShowForce'
+      'getShowForce',
+      'getUsesLocalStorage'
     ]),
     getLoadHeading(){
       if(this.getShowForce){
-        return 'Load/N';
+        return 'Load[N]';
       } else{
         return '';
+      }
+    },
+    isMobile(){
+      if(window.screen.width < 992){
+        return true;
+      } else{
+        return false;
       }
     }
 
@@ -115,19 +133,26 @@ export default {
     },
     dragComponent(event){
         event.dataTransfer.effectAllowed = 'move';
-         console.log(event.target.id);
+         //console.log("Dragged event: ");
+         //console.log(event);
          let element = event.target;
          if(element.classList.contains('drop-area')){
-           console.log(element.id);
-            event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
-            console.log(element.childNodes[0]);
+           if(element.childNodes[0] != null){
+              event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
+           } else{
+              event.dataTransfer.setData("text/html", element.id + "|" + 'empty');
+           }
+            
          } else{
            while(element.parentNode){
               element = element.parentNode;
-              console.log(element.id);
+              //console.log(element.id);
               if(element.classList.contains('drop-area')){
-                event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
-                console.log(element.childNodes[0]);
+                if(element.childNodes[0] != null){
+                  event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
+              } else{
+                  event.dataTransfer.setData("text/html", element.id + "|" + 'empty');
+              }
                 break;
               }
             }
@@ -142,43 +167,91 @@ export default {
       let droppedElement = document.getElementById(event.target.id);
       let draggedID = dropItems[1];
       
-      if(droppedElement != null && droppedElement.classList.contains('drop-area')){
-        if(event.target.childNodes.length > 0){
-          draggedZone.appendChild(event.target.childNodes[0]);
-        }
-        console.log(draggedID);
-        droppedElement.appendChild(document.getElementById(draggedID));
-      } 
-      else if(droppedElement){
-        let element = droppedElement;
-        while(element.parentNode){
-          element = element.parentNode;
-          if(element.classList.contains('drop-area')){
-            console.log(element.childNodes[0]);
-            draggedZone.appendChild(element.childNodes[0]);
-            element.appendChild(document.getElementById(draggedID));
-            
-            break;
+      // only try if the dragged element is not empty
+      if(draggedID != 'empty' && document.getElementById(draggedID) != null){
+          if(droppedElement != null && droppedElement.classList.contains('drop-area')){
+            if(event.target.childNodes.length > 0){
+              draggedZone.appendChild(event.target.childNodes[0]);
+            }
+            //console.log(draggedID);
+            droppedElement.appendChild(document.getElementById(draggedID));
+            droppedElement.classList.remove('drop-area-highlighted');
+        } 
+        else if(droppedElement){
+          let element = droppedElement;
+          while(element.parentNode){
+            element = element.parentNode;
+            if(element.classList.contains('drop-area')){
+              //console.log(element.childNodes[0]);
+              draggedZone.appendChild(element.childNodes[0]);
+              element.appendChild(document.getElementById(draggedID));
+              element.classList.remove('drop-area-highlighted');
+              break;
+            }
           }
         }
+      } else{
+        if(droppedElement != null){
+          droppedElement.classList.remove('drop-area-highlighted');
+        }
+        
       }
+      
       return false;
     },
-    toggleLayout(ratio){
-      if(ratio == 0.25){
-        this.leftClass = 'col-lg-3';
-        this.rightClass = 'col-lg-9';
-      } else if(ratio == 0.5){
-        this.leftClass = 'col-lg-6';
-        this.rightClass = 'col-lg-6';
-      } else if(ratio == 0.75){
-         this.leftClass = 'col-lg-9';
-        this.rightClass = 'col-lg-3';
-      } else{
-         this.leftClass = 'col-lg-12';
-        this.rightClass = 'col-lg-12';
-      }
+    dragEnter(event){
+    //console.log(event)
+    if(event.target.classList.contains('drop-area')){
+          event.target.classList.add('drop-area-highlighted');
+        }
     },
+    dragLeave(event){
+      let element = document.getElementById(event.target.id);
+      if(element != null){
+        element.classList.remove('drop-area-highlighted');
+      }
+      
+    },
+    hasStorage(){
+        try {
+            window.localStorage.setItem('test', 'storage');
+            window.localStorage.removeItem('test');
+            return true;
+        } catch (exception) {
+            return false;
+          }
+      },
+      // UUID is generated by the practable booking system and stored in localStorage (as userName)
+      // This function should just find that userName and set it in vuex, else set uuid to null
+    updateUUID(){
+        let stored_uuid;
+        if(this.getUsesLocalStorage){
+          stored_uuid = window.localStorage.getItem('userName');
+        } else {
+          stored_uuid = null;
+        }
+        
+        if(stored_uuid){
+            this.$store.dispatch('setUUID', stored_uuid);
+        } else{
+          this.$store.dispatch('setUUID', 'null');
+        }
+      },
+    // toggleLayout(ratio){
+    //   if(ratio == 0.25){
+    //     this.leftClass = 'col-lg-3';
+    //     this.rightClass = 'col-lg-9';
+    //   } else if(ratio == 0.5){
+    //     this.leftClass = 'col-lg-6';
+    //     this.rightClass = 'col-lg-6';
+    //   } else if(ratio == 0.75){
+    //      this.leftClass = 'col-lg-9';
+    //     this.rightClass = 'col-lg-3';
+    //   } else{
+    //      this.leftClass = 'col-lg-12';
+    //     this.rightClass = 'col-lg-12';
+    //   }
+    // },
     
   }
   

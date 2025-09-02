@@ -22,7 +22,7 @@ describe('NavigationBar.vue', () => {
       }
     });
 
-    expect(wrapper.find('.navbar').text()).toContain('Remote Lab: Truss Lab');
+    expect(wrapper.find('.navbar').text()).toContain('Truss Lab');
   })
 
 })

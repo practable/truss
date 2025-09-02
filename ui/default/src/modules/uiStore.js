@@ -9,6 +9,7 @@ const uiStore = {
         show_theory: true,      //should the theoretical values component be available on the UI
         input_disabled: false,
         hard_limit: false,
+        usesLocalStorage: false,        //can only use localStorage if the browser allows it.
        }),
        mutations:{
          SET_DRAGGABLE(state, draggable){
@@ -24,7 +25,10 @@ const uiStore = {
         SET_HARD_LIMIT(state, set){
             console.log('HARD LIMIT ', set);
             state.hard_limit = set;
-        }
+        },
+        SET_USES_LOCAL_STORAGE(state, set){
+            state.usesLocalStorage = set;
+         },
 
        },
        actions:{
@@ -41,7 +45,10 @@ const uiStore = {
         setHardLimit(context, set){
             console.log('set hard limit', set);
             context.commit('SET_HARD_LIMIT', set);
-        }
+        },
+        setUsesLocalStorage(context, set){
+            context.commit('SET_USES_LOCAL_STORAGE', set);
+         },
 
        },
        getters:{
@@ -62,6 +69,9 @@ const uiStore = {
          },
          getHardLimit(state){
             return state.hard_limit;
+         },
+         getUsesLocalStorage(state){
+            return state.usesLocalStorage;
          },
          getAppVersion(state){
             return import.meta.env.VITE_APP_VERSION;
