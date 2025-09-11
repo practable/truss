@@ -1,6 +1,9 @@
 <template>
   <div id="app" class='container-fluid-sm m-0'>
-    <navigation-bar @togglegraph="togglegraph" @togglesnapshot="toggleSnapshot" @toggletheoreticalstrains="toggleTheoreticalStrains" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"
+    
+    <navigation-bar 
+    :isGraphOn='isGraphOn' :isTheoreticalStrainsOn="isTheoreticalStrainsOn" :isSnapshotOn="isSnapshotOn"
+    @togglegraph="togglegraph" @togglesnapshot="toggleSnapshot" @toggletheoreticalstrains="toggleTheoreticalStrains" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"
     />
 
     <div v-if="isWorkspaceOn">

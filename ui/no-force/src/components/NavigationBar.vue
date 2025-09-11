@@ -19,9 +19,9 @@
                    Add Component
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#" @click='toggleComponent("snapshot")'>Data Snapshot</a></li>
-                    <li v-if='getShowTheory'><a class="dropdown-item" href="#" @click='toggleComponent("theoreticalstrains")'>Theoretical Values</a></li>
-                    <li><a class="dropdown-item" href="#" @click='toggleComponent("graph")'>Graph</a></li>
+                    <li><a :class="isSnapshotOn ? 'dropdown-item dropdown-checked' : 'dropdown-item'" id='snapshotmenu' href="#" @click='toggleComponent("snapshot")'>Data Snapshot</a></li>
+                    <li v-if='getShowTheory'><a :class="isTheoreticalStrainsOn ? 'dropdown-item dropdown-checked' : 'dropdown-item'" id='theoreticalstrainsmenu' href="#" @click='toggleComponent("theoreticalstrains")'>Theoretical Values</a></li>
+                    <li><a :class="isGraphOn ? 'dropdown-item dropdown-checked' : 'dropdown-item'" id='graphmenu' href="#" @click='toggleComponent("graph")'>Graph</a></li>
                   </ul>
               </li>
 
@@ -108,9 +108,7 @@ export default {
     Clock,
     Toolbar
   },
-  props:{
-      
-  },
+  props:['isSnapshotOn', 'isGraphOn', 'isTheoreticalStrainsOn'],
   emits:[
     'togglegraph', 'togglesnapshot', 'toggleworkspace', 'clearworkspace', 'addruler', 'addprotractor', 'toggletheoreticalstrains'
   ],
