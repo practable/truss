@@ -9,7 +9,17 @@ const config = {
     //For generating graphs in the analytics system, you need to map the appropriate buttons (that send hardware commands to the lab) with the 
     // names of the nodes that will appear on the graph (or a coded name)
     graph_nodes: {
-     
+      "load-decrement-10": "decrease_load",
+      "load-decrement-5": "decrease_load",
+      "load-decrement-1": "decrease_load",
+      "load-increment-10": "increase_load",
+      "load-increment-5": "increase_load",
+      "load-increment-1": "increase_load",
+      "load-input": "change_load",
+      "load-control-reset": "reset",
+      "load-control-tare-gauges": "tare_gauges",
+      "load-control-tare-load-cell": "tare_load",
+      "snapshot-button": "record"
     },
     //Add any hotkeys that you want to log
     hotkeys: [

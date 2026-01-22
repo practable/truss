@@ -5,7 +5,7 @@ const uiStore = {
     state: () => ({
         isDraggable: true,
         consent_given: true,
-        show_force: false,       //should force values be displayed on the UI
+        show_force: true,       //should force values be displayed on the UI
         show_theory: false,      //should the theoretical values component be available on the UI
         input_disabled: false,
         hard_limit: false,
