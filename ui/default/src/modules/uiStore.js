@@ -10,6 +10,7 @@ const uiStore = {
         input_disabled: false,
         hard_limit: false,
         usesLocalStorage: false,        //can only use localStorage if the browser allows it.
+        windowWidth: window.innerWidth,
        }),
        mutations:{
          SET_DRAGGABLE(state, draggable){
@@ -29,6 +30,9 @@ const uiStore = {
         SET_USES_LOCAL_STORAGE(state, set){
             state.usesLocalStorage = set;
          },
+         SET_WINDOW_WIDTH(state, val){
+            state.windowWidth = val;
+         }
 
        },
        actions:{
@@ -49,6 +53,9 @@ const uiStore = {
         setUsesLocalStorage(context, set){
             context.commit('SET_USES_LOCAL_STORAGE', set);
          },
+         setWindowWidth(context, val){
+            context.commit('SET_WINDOW_WIDTH', val);
+         }
 
        },
        getters:{
@@ -75,7 +82,17 @@ const uiStore = {
          },
          getAppVersion(state){
             return import.meta.env.VITE_APP_VERSION;
-         }
+         },
+         getWindowWidth(state){
+            return state.windowWidth;
+         },
+         isMobile(state){
+            if(state.windowWidth < 992){
+               return true;
+            } else{
+               return false;
+            }
+         },
           
          
        },  

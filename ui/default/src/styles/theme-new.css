@@ -76,6 +76,7 @@ body.dark-theme {
 
     #third-row{
         overflow: auto;
+        height: 50dvh;
         max-height: 100dvh;
         min-height: 20dvh;
         max-width: 100dvw;
@@ -272,7 +273,7 @@ body.dark-theme {
 .button-tertiary{
     background-color: var(--background-color-secondary);
     color: var(--text-color);
-    border-width: 3px;
+    border-width: 1px;
     border-style: solid;
     border-color: var(--button-color-tertiary);
 }

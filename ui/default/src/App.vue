@@ -11,7 +11,25 @@
 
   <streams id='streams' />
 
-  <div v-if='!isMobile' class='row' id='component-grid'>
+  <div :class="isMobile ? 'd-flex flex-column' : 'row'" id='component-grid'>
+        <!-- first-row etc only exist as styles when large screen -->
+        <div :class="isMobile ? '' : 'd-flex'" id='first-row'>
+          <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-two-fifths'" id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
+          <div v-if='loadControlVersion == 3' :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-three-fifths'" id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><load-control-code id='load-control-code' /></div>
+          <div v-else :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-three-fifths'" id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><load-control id='load-control' :controlVersion="loadControlVersion"/></div>
+        </div>
+
+        <div :class="isMobile ? '' : 'd-flex'" id='second-row'>
+          <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-full'" id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="[getLoadHeading, 'Gauge 1 [&mu;&epsilon;]', 'Gauge 2 [&mu;&epsilon;]', 'Gauge 3 [&mu;&epsilon;]', 'Gauge 4 [&mu;&epsilon;]', 'Gauge 5 [&mu;&epsilon;]', 'Gauge 6 [&mu;&epsilon;]' ]"/></div>
+        </div>
+
+        <div :class="isMobile ? '' : 'd-flex'" id='third-row'>
+          <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-half'" id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><graph-output v-if='isGraphOn' id='graph' /></div>
+          <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-half'" id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><theoretical-strains id='theoretical-strains' v-if='isTheoreticalStrainsOn && getShowTheory' /></div>
+        </div>
+    </div>
+
+  <!-- <div v-if='!isMobile' class='row' id='component-grid'>
 
       <div class='d-flex' id='first-row'>
           <div class='drop-area drop-area-two-fifths' id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
@@ -21,7 +39,6 @@
 
       <div class='d-flex' id='second-row'>
         <div class='drop-area drop-area-full' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="[getLoadHeading, 'Gauge 1 [&mu;&epsilon;]', 'Gauge 2 [&mu;&epsilon;]', 'Gauge 3 [&mu;&epsilon;]', 'Gauge 4 [&mu;&epsilon;]', 'Gauge 5 [&mu;&epsilon;]', 'Gauge 6 [&mu;&epsilon;]' ]"/></div>
-        <!-- <div class='drop-area drop-area-half' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div> -->
       </div>
 
       <div class='d-flex' id='third-row'>
@@ -40,7 +57,7 @@
       <div class='drop-area drop-area-mobile' id='drop_5_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
       <div class='drop-area drop-area-mobile' id='drop_6_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
       <div class='drop-area drop-area-mobile' id='drop_7_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
-  </div>
+  </div> -->
 
   
   </div>
@@ -59,7 +76,7 @@ import Streams from './components/Streams.vue';
 import DataStream from './components/DataStream.vue';
 
 
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'App',
@@ -89,14 +106,19 @@ export default {
   },
   created(){
     this.$store.dispatch('setUsesLocalStorage', this.hasStorage());
+  },
+  mounted(){
     this.updateUUID();
+
+    window.onresize = () => {this.setWindowWidth(window.innerWidth)};
   },
   computed:{
     ...mapGetters([
       'getDraggable',
       'getShowTheory',
       'getShowForce',
-      'getUsesLocalStorage'
+      'getUsesLocalStorage',
+      'isMobile'
     ]),
     getLoadHeading(){
       if(this.getShowForce){
@@ -105,16 +127,11 @@ export default {
         return '';
       }
     },
-    isMobile(){
-      if(window.screen.width < 992){
-        return true;
-      } else{
-        return false;
-      }
-    }
-
   },
   methods:{
+    ...mapActions([
+        'setWindowWidth'
+    ]),
     togglegraph(){
       console.log('toggle graph');
       this.isGraphOn = !this.isGraphOn;
