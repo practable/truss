@@ -179,8 +179,8 @@
                         <img class='col-6' id='force-arrow-image' src='/images/force_arrow.png' alt='force-arrow-image'>
                         <div class="col-4">
                             <div class="d-flex flex-column align-items-center">
-                                <button id="load-decrement-ten-percent" type='button' class='button-primary button-xlg' @click='incrementMove(-1.5)' :disabled='getInputDisabled || servo_input == servo_min'> - </button>
-                                <button id="load-increment-ten-percent" type='button' class='button-primary button-xlg' @click='incrementMove(1.5)' :disabled='getInputDisabled || servo_input >= servo_max'>+</button>
+                                <button id="load-decrement-ten-percent" type='button' class='button-primary button-xlg' @click='incrementMove(-1.5)' :disabled='getInputDisabled || servo_input == servo_min'> &nbsp; - &nbsp; </button>
+                                <button id="load-increment-ten-percent" type='button' class='button-primary button-xlg' @click='incrementMove(1.5)' :disabled='getInputDisabled || servo_input >= servo_max'>&nbsp; + &nbsp;</button>
                             </div>
                             
                         </div>

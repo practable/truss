@@ -10,6 +10,7 @@
         </div>
 
   <streams id='streams' />
+  <logging v-if="getIsLoggingOn" id='logging' />
 
   <div :class="isMobile ? 'd-flex flex-column' : 'row'" id='component-grid'>
         <!-- first-row etc only exist as styles when large screen -->
@@ -74,6 +75,7 @@ import GraphOutput from './components/GraphOutput.vue';
 import Workspace from './components/Workspace.vue';
 import Streams from './components/Streams.vue';
 import DataStream from './components/DataStream.vue';
+import Logging from './components/Logging.vue';
 
 
 import { mapGetters, mapActions } from 'vuex';
@@ -90,6 +92,7 @@ export default {
     Workspace,
     Streams,
     DataStream,
+    Logging
   },
   data(){
     return {
@@ -118,7 +121,8 @@ export default {
       'getShowTheory',
       'getShowForce',
       'getUsesLocalStorage',
-      'isMobile'
+      'isMobile',
+      'getIsLoggingOn'
     ]),
     getLoadHeading(){
       if(this.getShowForce){

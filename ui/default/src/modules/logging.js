@@ -3,8 +3,8 @@
 const loggingStore = {
     state: () => ({
         uuid: '',                           //will be set from App.vue from localStorage
-        isLoggingOn: false,                  //hard coded here
-        logging_consent_given: false,       //no longer need to ask users for consent
+        isLoggingOn: true,                  //hard coded here
+        logging_consent_given: true,       //no longer need to ask users for consent
         hardware: '',           //will be set from the Logging.vue component - the general experiment name e.g. spinner or pendulum
         experiment: '',         //will be set from the Logging.vue component - the specific code for a single kit e.g. spin30
         course: '',      //will be set from the Logging.vue component - a course code, e.g. ed1 or cie3

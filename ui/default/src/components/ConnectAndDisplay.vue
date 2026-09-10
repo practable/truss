@@ -6,7 +6,8 @@
     </div>
 
       <div v-else class='col-sm-12 mb-2' id='overlay'>
-            <img id='truss-image' src='/images/truss-mini-image-labels.png' alt='truss-image'>
+            <img v-if="displayForce" id='truss-image' src='/images/truss-mini-image-labels-force-arrow.png' alt='truss-image'>
+            <img v-else id='truss-image' src='/images/truss-mini-image-labels.png' alt='truss-image'>
 
             <div :class="[{highlighted: (highlighted_index.includes(0))}, {unhighlighted: (!highlighted_index.includes(0))}, 'pt-2']" id='load-cell' :hidden='!getShowForce'>{{getCurrent.load_cell.toFixed(0)}} N</div>
 
@@ -64,6 +65,7 @@ export default {
     return {
       dataSocket: null,
       highlighted_index: [],
+      displayForce: false
     }
   },
   watch:{
