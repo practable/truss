@@ -18,8 +18,11 @@ export default {
 	},
     data(){
         return{
-			stream: Object,
+			stream: null,
         }
+    },
+	beforeUnmount() { 
+        document.removeEventListener("streams:dropped", this.getWebsocketConnection);
     },
 	mounted(){
 		// var _this = this;
@@ -50,7 +53,7 @@ export default {
 		},
 		urlOK(is) {
 			if (is) {
-				console.log("get dataURL", this.urlOK, this.url);
+				console.log("get dataURL", this.urlOK);
 			}
 		},
 
