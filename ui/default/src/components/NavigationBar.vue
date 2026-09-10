@@ -62,7 +62,7 @@
                 <clock class='nav-link' />
             </li>
 
-            <toolbar class='me-5' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
+            <!-- <toolbar class='me-5' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
                   <template v-slot:popup>
                     <div class='row'>
                       <div class='col-6'>
@@ -86,7 +86,37 @@
                       </div>
                     </div>
                   </template>
-            </toolbar>
+            </toolbar> -->
+
+            <popup-help class="me-2" id="popup-help-nav-bar">
+              <template v-slot:header>
+                  <h5> Interface version: {{ getAppVersion }}</h5>
+              </template>
+              <template v-slot:body>
+                  <div class='row'>
+                      <div class='col-6'>
+                        <h2> Layout </h2>
+                        <p> The layout of the UI can be changed using the Layout dropdown menu. This changes the left and right screen column sizes.</p>
+                        <p>Components can be swapped by dragging to new positions. Click and drag from near but within the dotted line of the component you want to move. Release 
+                          inside the dotted border of the grid space that you want to move it to.</p>
+                      </div>
+                      <div class='col-6'>
+                        <h2>UI Control:</h2>
+                        <p>When the Measuring Tools are added hold, 'o' whilst dragging a tool to rotate it</p>
+                        <p>Press 'w' to swap between controlling the measuring tools and the background UI. Click 'Clear Workspace' to remove the measuring tools</p>
+                        <p>Additional UI components can be added from the Menu bar.</p>
+                      </div>
+                    </div>
+                    <div v-if='!getShowForce' class='row'>
+                      <div class='col-12'>
+                        <h2>Hidden force values</h2>
+                        <p>In this version of the UI, load force values have been hidden. Users should calculate the load force necessary to generate the measured strains</p>
+                      </div>
+                    </div>
+                  
+              </template>
+            </popup-help>
+
           </ul>
 
       </div>
@@ -98,15 +128,17 @@
 <script>
 
 import Clock from "./Clock.vue";
-import Toolbar from './elements/Toolbar.vue';
+//import Toolbar from './elements/Toolbar.vue';
 import { mapGetters } from 'vuex';
+import PopupHelp from "./elements/PopupHelp.vue";
 
 export default {
 
   name: 'NavigationBar',
   components: {
     Clock,
-    Toolbar
+    PopupHelp
+    //Toolbar
   },
   props:['isSnapshotOn', 'isGraphOn', 'isTheoreticalStrainsOn'],
   emits:[

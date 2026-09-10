@@ -168,9 +168,14 @@
 
     </div>
 
-    <toolbar parentCanvasID="graph-canvas" parentComponentName="graph" parentDivID="graph" :showDownload='true' :showPopupHelp="true" :showOptions="false">  
-        
-        <template v-slot:popup>
+    <div class="d-flex flex-row align-items-center justify-content-start">
+    <toolbar parentCanvasID="graph-canvas" parentComponentName="graph" parentDivID="graph" :showDownload='true' :showPopupHelp="false" :showOptions="false">  </toolbar>
+
+    <popup-help class="me-2" id="popup-help-graph">
+        <template v-slot:header>
+            <h5> Graph Help </h5>
+        </template>
+        <template v-slot:body>
             <div class='row mb-2' id='intro-div'>
                 <div class='col-12'>
                     <h3> Adding data </h3>
@@ -188,7 +193,7 @@
                 </div>
             </div>
 
-            <div class='row mb-2' id='data-point-div'>
+             <div class='row mb-2' id='data-point-div'>
                 <div class='col-4'>
                     <img class='popup-image' src='/images/GraphDataPoint.png'>
                 </div>
@@ -212,8 +217,11 @@
                 </div>
 
             </div>
+            
         </template>
-    </toolbar>
+      </popup-help>
+    </div>
+
 </div>
 
 </template>
@@ -223,6 +231,7 @@
 import { Chart } from 'chart.js';
 import { mapActions, mapGetters } from 'vuex';
 import Toolbar from "./elements/Toolbar.vue";
+import PopupHelp from './elements/PopupHelp.vue';
 
 export default {
     
@@ -230,6 +239,7 @@ export default {
     emits: ['newselectedgraphpoint'],
     components:{
         Toolbar,
+        PopupHelp
     },
     data(){
         return{

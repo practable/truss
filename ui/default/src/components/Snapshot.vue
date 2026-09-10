@@ -1,6 +1,26 @@
 
 <template>
 <div class="container-fluid practable-component" id='snapshot'>
+    <div class='d-flex flex-row align-items-center justify-content-center'>
+        <button id="snapshot-button" type='button' class="button-sm button-primary" @click="takeSnapshot(); scrollTo('table')">Record Snapshot</button>
+        <button id="reset-snaps" type='button' class="button-sm button-danger" @click="toggleResetModal">Reset</button>
+        <button id="download-snaps" type='button' class="button-sm button-secondary" @click="outputToCSV">Download Snapshots</button>
+    
+        <popup-help class="me-2" id="popup-help-snapshot">
+        <template v-slot:header>
+            <h5> Snapshot Help </h5>
+        </template>
+        <template v-slot:body>
+            <div class='row mb-2'>
+                <p> Click 'Record Snapshot' to save the current data. Every time you click a new data set will be added. This data is also displayed on the Graph component 
+                        if added to the UI from the Menu. Click 'Download Snapshots' to download all the snapshots as a .csv file.
+                    </p>
+            </div>
+            
+        </template>
+      </popup-help>
+    </div>
+
     <div class="row table" id='table' >
 
         <table>
@@ -28,13 +48,9 @@
 	</div>
 
 
-    <div class='d-grid gap-2 d-sm-block'>
-        <button id="snapshot-button" type='button' class="button-sm button-primary" @click="takeSnapshot(); scrollTo('table')">Record Snapshot</button>
-        <button id="reset-snaps" type='button' class="button-sm button-danger" @click="toggleResetModal">Reset</button>
-        <button id="download-snaps" type='button' class="button-sm button-secondary" @click="outputToCSV">Download Snapshots</button>
-    </div>
+
     
-     <toolbar parentCanvasID="" parentComponentName="snapshot" parentDivID="motor-snapshot-div" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
+     <!-- <toolbar parentCanvasID="" parentComponentName="snapshot" parentDivID="motor-snapshot-div" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
         <template v-slot:popup>
             <div class='row mb-2'>
                 <div class='col'>
@@ -46,7 +62,8 @@
             </div>
 
         </template>
-    </toolbar>
+    </toolbar> -->
+    
 
     <div v-if='showResetConfirmModal' class="modal modal-show" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -73,7 +90,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Toolbar from "./elements/Toolbar.vue"
+//import Toolbar from "./elements/Toolbar.vue"
+import PopupHelp from './elements/PopupHelp.vue';
 
 export default {
     name: 'Snapshot',
@@ -81,7 +99,8 @@ export default {
       'headings'
     ],
     components:{
-        Toolbar,
+        //Toolbar,
+        PopupHelp
     },
     data(){
         return{

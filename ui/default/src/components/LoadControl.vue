@@ -1,13 +1,111 @@
 //Controls stepper motor. Stepper between 0 and 20000 steps.
 
 <template>
-    <div class='container-fluid practable-component' id='load-control'>
-        <div class='d-grid gap-2 d-sm-block mb-2'>
+    <div class='container-fluid practable-component d-flex flex-column' id='load-control'>
+        <!-- <div class='d-grid gap-2 d-sm-block mb-2'> -->
+        <div class='d-flex flex-row me-2 justify-content-center align-items-center'>
             <!-- <button type='button' class='btn btn-sm btn-primary me-2' @click='read'>Start Reading</button>
             <button type='button' class='btn btn-sm btn-danger me-2' @click='standby'>Standby</button> -->
             <button id="load-control-reset" type='button' class='button-sm button-danger me-2' @click='reset' :disabled='getInputDisabled'>Reset</button>
             <button id="load-control-tare-gauges" type='button' class='button-sm button-secondary me-2' @click='tare' :disabled='getInputDisabled'>Tare</button>
             <button id="load-control-tare-load-cell" type='button' class='button-sm button-secondary me-2' @click='tareLoad' :disabled='getInputDisabled' v-if='getShowForce'>Tare Load</button>
+            
+            <popup-help class="me-2" id="popup-help-control">
+                <template v-slot:header>
+                    <h5> Control Help </h5>
+                </template>
+                <template v-slot:body>
+                    <div class='row mb-2'>
+                        <h3> Load control </h3>
+                        <p> The load force is controlled using a linear actuator. The actuator can be positioned between 0 and 15. Reset will return the stepper to 
+                            its 0 position. Tare will zero the gauge measurements.
+                        </p>
+                    </div>
+                    
+                    <div v-if='controlVersion == 0' class='col-12'>
+                        <h3> Control Mode </h3>
+                        <p> A simple input field allows you to position the stepper between 0 and 20 000 steps by typing in the desired position.
+                        </p>
+                    </div>
+                    <div v-else-if='controlVersion == 1' class='col-12'>
+                        <h3> Control Mode </h3>
+                        <p> A simple slider allows you to position the stepper between 0 and 15. Smaller changes can be chosen using the 
+                            buttons below the slider.
+                        </p>
+                    </div>
+
+                    <div v-else-if='controlVersion == 2' class='col-12'>
+                        <h3> Control Mode </h3>
+                        <p> A "realistic" control dial is used to set the stepper motor position. Click and drag the mouse or touch and drag with a finger on mobile devices to rotate the 
+                            control dial. Releasing the mouse (or lifting your finger) will then set the motor to the desired position. The control dial gets harder to rotate as it gets closer 
+                            to the maximum value.
+                        </p>
+                    </div>
+
+                    <div v-else-if='controlVersion == 4' class='row'>
+                        <div class='col-4'>
+                            <img class='popup-image' src='../../public/images/controllerLayout.png'>
+                        </div>
+                        <div class='col-8'>
+                            <h3> Controller Layout</h3>
+                            <p> When using a gamepad, the (left) analog stick is used to set the position of the motor. A/Square is used to send the position to the hardware.
+                                B/Circle is used to reset the hardware. Y/Triangle is used to Tare the gauges.
+                            </p>
+                        </div>
+                    </div>
+                </template>
+        </popup-help>
+            <!-- <toolbar parentCanvasID="" parentComponentName="control" parentDivID="load-control" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
+        
+                <template v-slot:popup>
+                    <div class='row mb-2' id='control-div'>
+                        <div class='col-12'>
+                            <h3> Load control </h3>
+                            <p> The load force is controlled using a linear actuator. The actuator can be positioned between 0 and 15. Reset will return the stepper to 
+                                its 0 position. Tare will zero the gauge measurements.
+                            </p>
+                        </div>
+
+                        <div v-if='controlVersion == 0' class='col-12'>
+                            <h3> Control Mode </h3>
+                            <p> A simple input field allows you to position the stepper between 0 and 20 000 steps by typing in the desired position.
+                            </p>
+                        </div>
+
+                        <div v-else-if='controlVersion == 1' class='col-12'>
+                            <h3> Control Mode </h3>
+                            <p> A simple slider allows you to position the stepper between 0 and 15. Smaller changes can be chosen using the 
+                                buttons below the slider.
+                            </p>
+                        </div>
+
+                        <div v-else-if='controlVersion == 2' class='col-12'>
+                            <h3> Control Mode </h3>
+                            <p> A "realistic" control dial is used to set the stepper motor position. Click and drag the mouse or touch and drag with a finger on mobile devices to rotate the 
+                                control dial. Releasing the mouse (or lifting your finger) will then set the motor to the desired position. The control dial gets harder to rotate as it gets closer 
+                                to the maximum value.
+                            </p>
+                        </div>
+
+                        <div v-else-if='controlVersion == 4' class='row'>
+                            <div class='col-4'>
+                                <img class='popup-image' src='../../public/images/controllerLayout.png'>
+                            </div>
+                            <div class='col-8'>
+                                <h3> Controller Layout</h3>
+                                <p> When using a gamepad, the (left) analog stick is used to set the position of the motor. A/Square is used to send the position to the hardware.
+                                    B/Circle is used to reset the hardware. Y/Triangle is used to Tare the gauges.
+                                </p>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+            </template>
+        </toolbar> -->
+     
 
         </div>
 
@@ -19,8 +117,8 @@
         </div>
 
 
-        <div class='row'>
-            <div class='col-sm-6 mb-2'>
+        <div class='d-flex flex-row flex-grow-1'>
+            <div class='col-sm-6'>
                 <!-- <img id='load-cell-image' src='../../public/images/load-cell.jpg' alt='load-cell-image'> -->
                 <webcam-stream id='webcam-stream' />
             </div>
@@ -94,56 +192,7 @@
 
         </div>
 
-        <toolbar parentCanvasID="" parentComponentName="control" parentDivID="load-control" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
         
-        <template v-slot:popup>
-            <div class='row mb-2' id='control-div'>
-                <div class='col-12'>
-                    <h3> Load control </h3>
-                    <p> The load force is controlled using a linear actuator. The actuator can be positioned between 0 and 15. Reset will return the stepper to 
-                        its 0 position. Tare will zero the gauge measurements.
-                    </p>
-                </div>
-
-                <div v-if='controlVersion == 0' class='col-12'>
-                    <h3> Control Mode </h3>
-                    <p> A simple input field allows you to position the stepper between 0 and 20 000 steps by typing in the desired position.
-                    </p>
-                </div>
-
-                <div v-else-if='controlVersion == 1' class='col-12'>
-                    <h3> Control Mode </h3>
-                    <p> A simple slider allows you to position the stepper between 0 and 15. Smaller changes can be chosen using the 
-                        buttons below the slider.
-                    </p>
-                </div>
-
-                <div v-else-if='controlVersion == 2' class='col-12'>
-                    <h3> Control Mode </h3>
-                    <p> A "realistic" control dial is used to set the stepper motor position. Click and drag the mouse or touch and drag with a finger on mobile devices to rotate the 
-                        control dial. Releasing the mouse (or lifting your finger) will then set the motor to the desired position. The control dial gets harder to rotate as it gets closer 
-                        to the maximum value.
-                    </p>
-                </div>
-
-                 <div v-else-if='controlVersion == 4' class='row'>
-                    <div class='col-4'>
-                        <img class='popup-image' src='../../public/images/controllerLayout.png'>
-                    </div>
-                    <div class='col-8'>
-                        <h3> Controller Layout</h3>
-                        <p> When using a gamepad, the (left) analog stick is used to set the position of the motor. A/Square is used to send the position to the hardware.
-                            B/Circle is used to reset the hardware. Y/Triangle is used to Tare the gauges.
-                        </p>
-                    </div>
-                </div>
-
-
-            </div>
-
-
-            </template>
-        </toolbar>
 
 
     </div>
@@ -155,7 +204,8 @@ import { mapGetters, mapActions } from 'vuex';
 import ControlDial from './elements/ControlDial.vue';
 import WebcamStream from './WebcamStream.vue';
 import GamePad from './elements/GamePad.vue';
-import Toolbar from './elements/Toolbar.vue';
+//import Toolbar from './elements/Toolbar.vue';
+import PopupHelp from './elements/PopupHelp.vue';
 
 export default {
     name: 'LoadControl',
@@ -163,7 +213,8 @@ export default {
         ControlDial,
         WebcamStream,
         GamePad,
-        Toolbar,
+        //Toolbar,
+        PopupHelp
     },
     props:['controlVersion'],
     data(){

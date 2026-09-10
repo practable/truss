@@ -21,18 +21,22 @@
 
       </div>
 
-      <toolbar parentCanvasID="" parentComponentName="display-theory" parentDivID="overlay-theory" :showDownload='true' :showPopupHelp="true" :showOptions="false">  
-        
-        <template v-slot:popup>
-            <div class='row mb-2' id='help-div'>
+    <div class="d-flex flex-row align-items-center justify-content-start">
+   
+    <popup-help class="me-2" id="popup-help-graph">
+        <template v-slot:header>
+            <h5> Theoretical display</h5>
+        </template>
+        <template v-slot:body>
+            <div class='row mb-2' id='theory-help-div'>
           
-              <h3> Theoretical values display </h3>
               <p> A display of the theoretical truss and values of strain calculated for the measured load force.</p>
                 
             </div>
+            
         </template>
-
-    </toolbar>
+      </popup-help>
+    </div>
      
     </div>   
 
@@ -40,13 +44,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Toolbar from './elements/Toolbar.vue';
+//import Toolbar from './elements/Toolbar.vue';
+import PopupHelp from './elements/PopupHelp.vue';
 
 export default {
 
   name: 'TheoreticalStrains',
   components: {
-    Toolbar,
+    //Toolbar,
+    PopupHelp
   },
   data(){
     return {

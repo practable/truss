@@ -23,20 +23,25 @@
             <div :class="[{highlighted: (highlighted_index.includes(6))}, {unhighlighted: (!highlighted_index.includes(6))}, 'pt-2']" id='gauge-6'>{{getCurrent.gauge_6.toFixed(0)}} &mu;&epsilon;</div>
       </div>
 
-    <toolbar parentCanvasID="" parentComponentName="display" parentDivID="overlay" :showDownload='true' :showPopupHelp="true" :showOptions="false">  
-        
-        <template v-slot:popup>
-            <div class='row mb-2' id='help-div'>
-          
-              <h3> Strain gauge Display </h3>
-              <p> Values from the 6 strain gauges and load cell are displayed here. The next gauge is updated approximately every second. After changing the load, please 
-                allow all values to update.
-              </p>
-                
-            </div>
-        </template>
 
-    </toolbar>
+    <div class="d-flex flex-row">
+      <toolbar parentCanvasID="" parentComponentName="display" parentDivID="overlay" :showDownload='true' :showPopupHelp="false" :showOptions="false">  </toolbar>
+
+      <popup-help class="me-2" id="popup-help-display">
+        <template v-slot:header>
+            <h5> Display Help </h5>
+        </template>
+        <template v-slot:body>
+            <div class='row mb-2'>
+                <h5> Strain gauge Display </h5>
+                <p> Values from the 6 strain gauges and load cell are displayed here. The next gauge is updated approximately every second. After changing the load, please 
+                  allow all values to update.
+                </p>
+            </div>
+            
+        </template>
+      </popup-help>
+    </div>
     
   </div>
 </template>
@@ -44,11 +49,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import Toolbar from './elements/Toolbar.vue';
+import PopupHelp from './elements/PopupHelp.vue';
 
 export default {
   name: 'ConnectAndDisplay',
   components: {
     Toolbar,
+    PopupHelp
   },
   props:{
 		url: String,
@@ -60,9 +67,14 @@ export default {
     }
   },
   watch:{
-    url(){
-			this.connect();
+    url(newUrl){
+			if (newUrl) this.connect();
+      else this.disconnect();
 		},
+  },
+  beforeUnmount(){                  
+    this.disconnect();
+    //window.removeEventListener('keydown', this.hotkey, false);
   },
   mounted(){
     //this.connect();
@@ -70,8 +82,8 @@ export default {
   computed:{
     ...mapGetters([
 			'getCurrent',
-            'getSessionExpired',
-            'getShowForce'
+      'getSessionExpired',
+      'getShowForce'
 		]),
   },
   methods:{
@@ -90,11 +102,24 @@ export default {
 
       return updated_indices;
     },
+    disconnect(){
+      const ws = this.dataSocket;
+      this.dataSocket = null;
+      if (!ws) return;
+
+      ws.onopen = null;
+      ws.onmessage = null;
+      ws.onclose = null;
+      ws.onerror = null;
+
+      try { ws.close(); } catch(e) { /* already closing */ }
+    },
     connect(){
+      //ensure websocket is closed if already open before a new connect
+        this.disconnect();
         let debug = false;
         let _this = this;
-        //this.dataSocket = new WebSocket('wss://video.practable.io:443/bi/dpr/pendulum0');
-        //console.log(this.url);
+      
         this.dataSocket = new WebSocket(this.url);
         this.$store.dispatch('setDataSocket', this.dataSocket);
         
