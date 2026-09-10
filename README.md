@@ -16,11 +16,13 @@ The truss remote laboratory has been designed for use with Structural Engineerin
 
 ## UI
 
-User Interfaces have been designed with Vue3.js and built with Vite. There are currently three distinct versions of the UI ready to build:
+User Interfaces have been designed with Vue3.js and built with Vite. There are currently three distinct versions of the UI that are built for production:
 
-- [default](./ui/default/): all data and components available on the user interface.
-- [no-force](./ui/no-force/): force data is hidden for student calculation from strain data.
-- [open-day](./ui/open-day/): simplified control interface for demonstrations.
+- default: all data and components available on the user interface.
+- no-force: force data is hidden for student calculation from strain data.
+- open-day: simplified control interface for demonstrations.
+
+See [here](./ui/README.md) for details of the differences.
 
 ## Changing control interface on UI
 
